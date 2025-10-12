@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createBrowserClient, createServerClient } from '@supabase/ssr'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -7,8 +7,11 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 // Cliente para uso no lado do cliente (browser)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// Cliente para componentes React (com auth helpers)
-export const createClient = () => createClientComponentClient()
+// Cliente para componentes React (com SSR)
+export const createBrowserSupabaseClient = () => createBrowserClient(
+  supabaseUrl,
+  supabaseAnonKey
+)
 
 // Cliente para uso no servidor (com service role)
 export const supabaseAdmin = createClient(

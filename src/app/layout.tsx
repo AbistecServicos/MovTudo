@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   description: 'Plataforma de transporte multiempresa conectando clientes e transportadores',
   keywords: 'transporte, taxi, mototaxi, entrega, logistica',
   authors: [{ name: 'MovTudo' }],
-  viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
   openGraph: {
     title: 'MovTudo - Sistema de Transporte',
@@ -19,6 +18,11 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'pt_BR',
   },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({

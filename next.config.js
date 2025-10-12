@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   images: {
     domains: [
       'localhost',
@@ -12,9 +9,6 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'maps.googleapis.com'
     ],
-  },
-  env: {
-    CUSTOM_KEY: process.env.CUSTOM_KEY,
   },
   async headers() {
     return [

@@ -54,6 +54,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loadUserData = async (supabaseUser: SupabaseUser) => {
     try {
+      console.log('🔍 Buscando dados do usuário:', supabaseUser.id)
+      
       // Buscar dados do usuário
       const { data: userData, error: userError } = await supabase
         .from('usuarios')
@@ -62,44 +64,70 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .single()
 
       if (userError) {
-        console.error('Erro ao buscar usuário:', userError)
+        console.error('❌ Erro ao buscar usuário:', userError)
+        toast.error('Erro ao carregar dados do usuário')
+        setLoading(false)
         return
       }
 
+      if (!userData) {
+        console.error('❌ Usuário não encontrado')
+        toast.error('Usuário não encontrado')
+        setLoading(false)
+        return
+      }
+
+      console.log('✅ Usuário encontrado:', userData.email, '| Admin:', userData.is_admin)
       setUser(userData)
 
-      // Se não for admin, buscar dados da empresa
-      if (!userData.is_admin) {
-        const { data: associacaoData, error: associacaoError } = await supabase
-          .from('empresa_associada')
-          .select('*')
-          .eq('uid_usuario', supabaseUser.id)
-          .eq('status_vinculacao', 'ativo')
-          .single()
-
-        if (associacaoError) {
-          console.error('Erro ao buscar associação:', associacaoError)
-          return
-        }
-
-        setEmpresaAssociada(associacaoData)
-
-        // Buscar dados da empresa
-        const { data: empresaData, error: empresaError } = await supabase
-          .from('empresas')
-          .select('*')
-          .eq('id_empresa', associacaoData.id_empresa)
-          .single()
-
-        if (empresaError) {
-          console.error('Erro ao buscar empresa:', empresaError)
-          return
-        }
-
-        setEmpresa(empresaData)
+      // Se for admin, não precisa buscar empresa
+      if (userData.is_admin) {
+        console.log('👑 Usuário é administrador - login completo')
+        setEmpresa(null)
+        setEmpresaAssociada(null)
+        setLoading(false)
+        return
       }
+
+      console.log('👤 Buscando empresa associada...')
+      
+      // Se não for admin, buscar dados da empresa
+      const { data: associacaoData, error: associacaoError } = await supabase
+        .from('empresa_associada')
+        .select('*')
+        .eq('uid_usuario', supabaseUser.id)
+        .eq('status_vinculacao', 'ativo')
+        .single()
+
+      if (associacaoError) {
+        console.log('⚠️ Nenhuma empresa associada encontrada:', associacaoError.message)
+        setLoading(false)
+        return
+      }
+
+      setEmpresaAssociada(associacaoData)
+      console.log('✅ Empresa associada encontrada')
+
+      // Buscar dados da empresa
+      const { data: empresaData, error: empresaError } = await supabase
+        .from('empresas')
+        .select('*')
+        .eq('id_empresa', associacaoData.id_empresa)
+        .single()
+
+      if (empresaError) {
+        console.error('❌ Erro ao buscar empresa:', empresaError)
+        setLoading(false)
+        return
+      }
+
+      setEmpresa(empresaData)
+      console.log('✅ Dados da empresa carregados')
+      setLoading(false)
     } catch (error) {
-      console.error('Erro ao carregar dados do usuário:', error)
+      console.error('❌ Erro ao carregar dados do usuário:', error)
+      toast.error('Erro ao carregar dados')
+      setLoading(false)
     }
   }
 
@@ -133,15 +161,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setLoading(true)
 
+      // Criar usuário no Supabase Auth
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
           data: {
             nome_usuario: userData.nome_usuario,
             nome_completo: userData.nome_completo,
-            telefone: userData.telefone,
-            is_admin: userData.is_admin || false
+            telefone: userData.telefone
           }
         }
       })
@@ -160,18 +189,47 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             nome_usuario: userData.nome_usuario || '',
             nome_completo: userData.nome_completo || '',
             telefone: userData.telefone || '',
-            is_admin: userData.is_admin || false,
+            is_admin: false, // Sempre false inicialmente
           })
 
         if (insertError) {
           throw insertError
         }
 
-        toast.success('Conta criada com sucesso! Verifique seu email para confirmar.')
+        // Se marcou como admin, vamos atualizar depois
+        if (userData.is_admin) {
+          toast.success('Conta criada com sucesso! Aguarde...')
+          toast.info('Você será promovido a administrador em alguns segundos.')
+          
+          // Aguardar um pouco e atualizar para admin
+          setTimeout(async () => {
+            try {
+              await supabase
+                .from('usuarios')
+                .update({ is_admin: true })
+                .eq('uid', data.user.id)
+              
+              toast.success('✅ Você agora é administrador do sistema!')
+            } catch (updateError) {
+              console.error('Erro ao promover a admin:', updateError)
+              toast.error('Erro ao promover a admin. Faça manualmente no banco.')
+            }
+          }, 3000)
+        } else {
+          toast.success('Conta criada com sucesso!')
+        }
       }
     } catch (error: any) {
       console.error('Erro no cadastro:', error)
-      toast.error(error.message || 'Erro ao criar conta')
+      
+      // Se for erro de CORS/403, sugerir configuração manual
+      if (error.message.includes('CORS') || error.message.includes('403')) {
+        toast.error('Erro de configuração. Configure o Supabase Auth primeiro.')
+        toast.info('💡 Acesse: Supabase → Authentication → Settings')
+      } else {
+        toast.error(error.message || 'Erro ao criar conta')
+      }
+      
       throw error
     } finally {
       setLoading(false)

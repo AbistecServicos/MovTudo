@@ -28,7 +28,7 @@ export default function LoginPage() {
     
     try {
       await signIn(email, password)
-      router.push('/dashboard')
+      router.push('/admin')
     } catch (error) {
       // Error já é tratado no AuthContext
     } finally {

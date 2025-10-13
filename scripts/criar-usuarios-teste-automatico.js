@@ -91,7 +91,7 @@ const usuarios = [
   // ========== EMPRESA E1 - Completar ==========
   {
     email: 'transportador2.e1@abistec.com.br',
-    password: 'Transp2E1@2025',
+    password: 'Transportador2.e1*',
     nome_completo: 'Pedro Motoqueiro',
     nome_usuario: 'transportador2.e1',
     telefone: '(21) 97777-0002',
@@ -102,7 +102,7 @@ const usuarios = [
   },
   {
     email: 'cliente1.e1@abistec.com.br',
-    password: 'Cliente1E1@2025',
+    password: 'Cliente1.e1*',
     nome_completo: 'Maria Oliveira',
     nome_usuario: 'cliente1.e1',
     telefone: '(21) 96666-0001',
@@ -113,7 +113,7 @@ const usuarios = [
   // ========== EMPRESA E2 - Volta com Fé ==========
   {
     email: 'gerente1.e2@abistec.com.br',
-    password: 'Gerente1E2@2025',
+    password: 'Gerente1.e2*',
     nome_completo: 'Roberto Caminhoneiro',
     nome_usuario: 'gerente1.e2',
     telefone: '(21) 98888-0002',
@@ -122,7 +122,7 @@ const usuarios = [
   },
   {
     email: 'transportador1.e2@abistec.com.br',
-    password: 'Transp1E2@2025',
+    password: 'Transportador1.e2*',
     nome_completo: 'José Caminhoneiro',
     nome_usuario: 'transportador1.e2',
     telefone: '(21) 97777-0003',
@@ -132,19 +132,8 @@ const usuarios = [
     carga_maxima: 8000
   },
   {
-    email: 'transportador2.e2@abistec.com.br',
-    password: 'Transp2E2@2025',
-    nome_completo: 'Paulo Carreteiro',
-    nome_usuario: 'transportador2.e2',
-    telefone: '(21) 97777-0004',
-    empresa: 'E2',
-    funcao: 'transportador',
-    veiculo: 'Carreta',
-    carga_maxima: 25000
-  },
-  {
     email: 'cliente1.e2@abistec.com.br',
-    password: 'Cliente1E2@2025',
+    password: 'Cliente1.e2*',
     nome_completo: 'Distribuidora Pepsi RJ',
     nome_usuario: 'cliente1.e2',
     telefone: '(21) 3333-0001',
@@ -155,7 +144,7 @@ const usuarios = [
   // ========== EMPRESA E3 - Açaí Delivery ==========
   {
     email: 'gerente1.e3@abistec.com.br',
-    password: 'Gerente1E3@2025',
+    password: 'Gerente1.e3*',
     nome_completo: 'Juliana Atendente',
     nome_usuario: 'gerente1.e3',
     telefone: '(21) 98888-0003',
@@ -164,7 +153,7 @@ const usuarios = [
   },
   {
     email: 'transportador1.e3@abistec.com.br',
-    password: 'Transp1E3@2025',
+    password: 'Transportador1.e3*',
     nome_completo: 'Lucas Entregador',
     nome_usuario: 'transportador1.e3',
     telefone: '(21) 97777-0005',
@@ -175,7 +164,7 @@ const usuarios = [
   },
   {
     email: 'transportador2.e3@abistec.com.br',
-    password: 'Transp2E3@2025',
+    password: 'Transportador2.e3*',
     nome_completo: 'Rafael Motoboy',
     nome_usuario: 'transportador2.e3',
     telefone: '(21) 97777-0006',
@@ -188,7 +177,7 @@ const usuarios = [
   // ========== EMPRESA E4 - Taxi Sul ==========
   {
     email: 'gerente1.e4@abistec.com.br',
-    password: 'Gerente1E4@2025',
+    password: 'Gerente1.e4*',
     nome_completo: 'Fernando Despachante',
     nome_usuario: 'gerente1.e4',
     telefone: '(21) 98888-0004',
@@ -197,7 +186,7 @@ const usuarios = [
   },
   {
     email: 'transportador1.e4@abistec.com.br',
-    password: 'Transp1E4@2025',
+    password: 'Transportador1.e4*',
     nome_completo: 'Marcelo Taxista',
     nome_usuario: 'transportador1.e4',
     telefone: '(21) 97777-0007',
@@ -208,7 +197,7 @@ const usuarios = [
   },
   {
     email: 'transportador2.e4@abistec.com.br',
-    password: 'Transp2E4@2025',
+    password: 'Transportador2.e4*',
     nome_completo: 'Ricardo Motorista',
     nome_usuario: 'transportador2.e4',
     telefone: '(21) 97777-0008',
@@ -219,7 +208,7 @@ const usuarios = [
   },
   {
     email: 'cliente1.e4@abistec.com.br',
-    password: 'Cliente1E4@2025',
+    password: 'Cliente1.e4*',
     nome_completo: 'Patricia Silva',
     nome_usuario: 'cliente1.e4',
     telefone: '(21) 96666-0004',

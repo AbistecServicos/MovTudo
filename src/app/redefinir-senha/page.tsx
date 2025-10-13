@@ -77,13 +77,13 @@ export default function RedefinirSenhaPage() {
       <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex justify-center">
-            <div className="flex items-center">
+            <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
               <Car className="h-12 w-12 text-primary-600" />
               <div className="ml-3">
                 <h1 className="text-3xl font-bold text-gray-900">MovTudo</h1>
                 <p className="text-sm text-gray-500">Sistema de Transporte</p>
               </div>
-            </div>
+            </Link>
           </div>
 
           <div className="mt-8">
@@ -123,13 +123,13 @@ export default function RedefinirSenhaPage() {
       <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex justify-center">
-            <div className="flex items-center">
+            <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
               <Car className="h-12 w-12 text-primary-600" />
               <div className="ml-3">
                 <h1 className="text-3xl font-bold text-gray-900">MovTudo</h1>
                 <p className="text-sm text-gray-500">Sistema de Transporte</p>
               </div>
-            </div>
+            </Link>
           </div>
 
           <div className="mt-8">

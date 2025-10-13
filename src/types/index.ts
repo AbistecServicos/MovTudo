@@ -206,6 +206,7 @@ export interface NovaCorridaForm {
 }
 
 export interface NovaEmpresaForm {
+  id_empresa: string
   empresa_nome: string
   cnpj: string
   empresa_endereco: string

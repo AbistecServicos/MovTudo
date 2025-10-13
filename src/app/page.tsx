@@ -42,13 +42,13 @@ export default function HomePage() {
               transportadores e clientes de forma eficiente e organizada.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/admin/empresas" className="btn btn-primary btn-lg">
-                <Users className="mr-2 h-5 w-5" />
-                Gerenciar Empresas
-              </Link>
-              <Link href="/login" className="btn btn-secondary btn-lg">
+              <Link href="/login" className="btn btn-primary btn-lg">
                 <ArrowRight className="mr-2 h-5 w-5" />
                 Acessar Sistema
+              </Link>
+              <Link href="/cadastro" className="btn btn-secondary btn-lg">
+                <Users className="mr-2 h-5 w-5" />
+                Cadastrar-se
               </Link>
             </div>
           </div>
@@ -156,12 +156,18 @@ export default function HomePage() {
             Pronto para começar?
           </h2>
           <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-            Crie sua primeira empresa de transporte e comece a gerenciar suas corridas hoje mesmo.
+            Entre em contato com a Abistec Serviços Tecnológicos para criar sua empresa de transporte e começar a gerenciar suas corridas.
           </p>
-          <Link href="/admin/empresas" className="btn btn-lg bg-white text-primary-600 hover:bg-gray-100">
-            <Users className="mr-2 h-5 w-5" />
-            Criar Primeira Empresa
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/login" className="btn btn-lg bg-white text-primary-600 hover:bg-gray-100">
+              <ArrowRight className="mr-2 h-5 w-5" />
+              Acessar Sistema
+            </Link>
+            <a href="https://wa.me/552132727548" className="btn btn-lg bg-green-600 text-white hover:bg-green-700" target="_blank" rel="noopener noreferrer">
+              <Users className="mr-2 h-5 w-5" />
+              Falar no WhatsApp
+            </a>
+          </div>
         </div>
       </section>
 

@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import { User as SupabaseUser } from '@supabase/supabase-js'
 import { User, Empresa, EmpresaAssociada, AuthContextType } from '@/types'
+import { useRouter, usePathname } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -13,6 +14,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [empresa, setEmpresa] = useState<Empresa | null>(null)
   const [empresaAssociada, setEmpresaAssociada] = useState<EmpresaAssociada | null>(null)
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
+  const pathname = usePathname()
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -131,7 +134,52 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const signIn = async (email: string, password: string) => {
+  // Função para redirecionar usuário após login (APENAS na página de login)
+  const redirectAfterLogin = () => {
+    // Só redireciona se estiver na página de login
+    if (pathname !== '/login') return
+    
+    // Não redireciona se já está carregando ou se não tem usuário
+    if (loading || !user) return
+
+    // 1. ADMINISTRADOR → /admin
+    if (user.is_admin === true) {
+      console.log('🔀 Redirecionando admin para /admin')
+      router.push('/admin')
+      return
+    }
+
+    // 2. TEM VÍNCULO COM EMPRESA?
+    if (empresaAssociada && empresa) {
+      
+      // 2a. GERENTE → /{slug}
+      if (empresaAssociada.funcao === 'gerente') {
+        console.log(`🔀 Redirecionando gerente para /${empresa.slug}`)
+        router.push(`/${empresa.slug}`)
+        return
+      }
+      
+      // 2b. TRANSPORTADOR → /transportador
+      if (empresaAssociada.funcao === 'transportador') {
+        console.log('🔀 Redirecionando transportador para /transportador')
+        router.push('/transportador')
+        return
+      }
+    }
+    
+    // 3. CLIENTE → Raiz
+    console.log('👤 Redirecionando cliente para raiz')
+    router.push('/')
+  }
+
+  // Executar redirecionamento apenas quando pathname for /login
+  useEffect(() => {
+    if (pathname === '/login') {
+      redirectAfterLogin()
+    }
+  }, [user, empresaAssociada, empresa, loading, pathname])
+
+  const signIn = async (email: string, password: string): Promise<boolean> => {
     try {
       setLoading(true)
       
@@ -147,11 +195,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (data.user) {
         await loadUserData(data.user)
         toast.success('Login realizado com sucesso!')
+        return true
       }
+      return false
     } catch (error: any) {
       console.error('Erro no login:', error)
       toast.error(error.message || 'Erro ao fazer login')
-      throw error
+      return false
     } finally {
       setLoading(false)
     }
@@ -307,4 +357,23 @@ export function useUserRole() {
 export function useIsAuthenticated() {
   const { user, loading } = useAuth()
   return { isAuthenticated: !!user, loading }
+}
+
+// Hook para obter tipo de usuário
+export function useUserType(): 'admin' | 'gerente' | 'transportador' | 'cliente' | null {
+  const { user, empresaAssociada } = useAuth()
+  
+  if (!user) return null
+  
+  // 1. Admin?
+  if (user.is_admin) return 'admin'
+  
+  // 2. Gerente ou Transportador?
+  if (empresaAssociada) {
+    if (empresaAssociada.funcao === 'gerente') return 'gerente'
+    if (empresaAssociada.funcao === 'transportador') return 'transportador'
+  }
+  
+  // 3. Cliente (logado mas sem empresa_associada)
+  return 'cliente'
 }

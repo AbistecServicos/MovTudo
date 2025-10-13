@@ -40,6 +40,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const handleSignOut = async () => {
     try {
+      // Fechar sidebar mobile se estiver aberto
+      setSidebarOpen(false)
+      
       await signOut()
       router.push('/')
     } catch (error) {
@@ -100,7 +103,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </nav>
           </div>
           <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
-            <div className="flex items-center">
+            <div className="flex items-center w-full">
               <div className="flex-shrink-0">
                 <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
                   <span className="text-sm font-medium text-primary-600">
@@ -108,10 +111,17 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                   </span>
                 </div>
               </div>
-              <div className="ml-3">
+              <div className="ml-3 flex-1">
                 <p className="text-base font-medium text-gray-700">{user.nome_completo}</p>
                 <p className="text-sm font-medium text-gray-500">{user.email}</p>
               </div>
+              <button
+                onClick={handleSignOut}
+                className="ml-2 p-2 text-gray-400 hover:text-gray-600"
+                title="Sair"
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
             </div>
           </div>
         </div>

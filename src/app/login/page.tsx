@@ -27,8 +27,11 @@ export default function LoginPage() {
     setLoading(true)
     
     try {
-      await signIn(email, password)
-      router.push('/admin')
+      const success = await signIn(email, password)
+      if (success) {
+        // Redireciona para perfil, que fará o roteamento correto
+        router.push('/perfil')
+      }
     } catch (error) {
       // Error já é tratado no AuthContext
     } finally {

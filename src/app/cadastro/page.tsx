@@ -14,8 +14,7 @@ export default function CadastroPage() {
     email: '',
     telefone: '',
     password: '',
-    confirmPassword: '',
-    is_admin: false
+    confirmPassword: ''
   })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -73,7 +72,7 @@ export default function CadastroPage() {
         nome_completo: formData.nome_completo,
         nome_usuario: formData.nome_usuario,
         telefone: formData.telefone,
-        is_admin: formData.is_admin
+        is_admin: false
       })
       
       toast.success('Conta criada com sucesso!')
@@ -249,22 +248,6 @@ export default function CadastroPage() {
               </div>
             </div>
 
-            {/* Admin Checkbox */}
-            <div className="flex items-center">
-              <input
-                id="is_admin"
-                name="is_admin"
-                type="checkbox"
-                checked={formData.is_admin}
-                onChange={handleInputChange}
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-                disabled={loading}
-              />
-              <label htmlFor="is_admin" className="ml-2 block text-sm text-gray-900">
-                Criar como administrador do sistema
-              </label>
-            </div>
-
             {/* Submit button */}
             <div>
               <button
@@ -300,13 +283,13 @@ export default function CadastroPage() {
 
             <div className="mt-4 p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-800 mb-2">
-                <strong>💡 Dica:</strong> Para criar o primeiro administrador do sistema:
+                <strong>💡 Sobre o cadastro:</strong>
               </p>
               <ul className="text-xs text-blue-700 space-y-1">
-                <li>• Marque "Criar como administrador"</li>
-                <li>• Use um email que você tenha acesso</li>
+                <li>• Use um email válido que você tenha acesso</li>
                 <li>• Você receberá um email de confirmação</li>
                 <li>• Após confirmar, poderá fazer login</li>
+                <li>• Para se tornar transportador, entre em contato com uma empresa</li>
               </ul>
             </div>
           </div>

@@ -1,31 +1,29 @@
 import { createClient } from '@supabase/supabase-js'
-import { createBrowserClient, createServerClient } from '@supabase/ssr'
 
-// Verificar se as variáveis de ambiente existem
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_URL is required')
+// Configurações do Supabase (hard-coded para garantir que funciona)
+const supabaseUrl = 'https://buxpuusxglavepfrivwg.supabase.co'
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1eHB1dXN4Z2xhdmVwZnJpdndnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMTkxNjQsImV4cCI6MjA3NTc5NTE2NH0.GhELCIA6KgxKUCR62THqHHW-PnAD-tzR4mFj6CHXoIo'
+
+// Validar
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Supabase configuration is missing')
 }
-
-if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_ANON_KEY is required')
-}
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 // Cliente para uso no lado do cliente (browser)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Cliente para componentes React (com SSR)
-export const createBrowserSupabaseClient = () => createBrowserClient(
+export const createBrowserSupabaseClient = () => createClient(
   supabaseUrl,
   supabaseAnonKey
 )
 
 // Cliente para uso no servidor (com service role)
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1eHB1dXN4Z2xhdmVwZnJpdndnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDIxOTE2NCwiZXhwIjoyMDc1Nzk1MTY0fQ.s6b7mByPi-xbaTqbKnkJPXJNMeOPSLKMGNMclQ8jVHM'
+
 export const supabaseAdmin = createClient(
   supabaseUrl,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+  serviceRoleKey
 )
 
 // Tipos TypeScript baseados no banco de dados

@@ -3,13 +3,15 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Plus, Building2, MapPin, Phone, Users, Edit, Trash2, Eye } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase'
 import { Empresa } from '@/types'
 import toast from 'react-hot-toast'
+import { useAuth } from '@/context/AuthContext'
 
 export default function EmpresasPage() {
   const [empresas, setEmpresas] = useState<Empresa[]>([])
   const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
 
   useEffect(() => {
     loadEmpresas()
@@ -17,15 +19,20 @@ export default function EmpresasPage() {
 
   const loadEmpresas = async () => {
     try {
-      const { data, error } = await supabase
+      console.log('🔍 Buscando empresas...')
+      
+      // Usa supabaseAdmin para ignorar RLS e permitir que admin veja todas as empresas
+      const { data, error } = await supabaseAdmin
         .from('empresas')
         .select('*')
         .order('data_criacao', { ascending: false })
 
       if (error) {
+        console.error('❌ Erro ao buscar empresas:', error)
         throw error
       }
 
+      console.log(`✅ ${data?.length || 0} empresa(s) encontrada(s)`)
       setEmpresas(data || [])
     } catch (error: any) {
       console.error('Erro ao carregar empresas:', error)
@@ -41,7 +48,7 @@ export default function EmpresasPage() {
     }
 
     try {
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from('empresas')
         .delete()
         .eq('id', id)
@@ -60,7 +67,7 @@ export default function EmpresasPage() {
 
   const toggleEmpresaStatus = async (id: number, ativa: boolean, nome: string) => {
     try {
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from('empresas')
         .update({ ativa: !ativa })
         .eq('id', id)

@@ -3,15 +3,20 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Save, Building2, Loader2 } from 'lucide-react'
+import { ArrowLeft, Save, Building2, Loader2, Upload, Image, X } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { NovaEmpresaForm } from '@/types'
+import { uploadEmpresaLogo, formatFileSize, isImageFile } from '@/lib/storage'
 import toast from 'react-hot-toast'
 
 export default function NovaEmpresaPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [uploadingLogo, setUploadingLogo] = useState(false)
+  const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [logoPreview, setLogoPreview] = useState<string | null>(null)
   const [formData, setFormData] = useState<NovaEmpresaForm>({
+    id_empresa: '',
     empresa_nome: '',
     cnpj: '',
     empresa_endereco: '',
@@ -23,12 +28,25 @@ export default function NovaEmpresaPage() {
     cor_primaria: '#3B82F6',
     cor_secundaria: '#10B981'
   })
+  
+  const [tipoEmpresa, setTipoEmpresa] = useState<'taxi' | 'transportadora' | 'delivery' | 'multisservico'>('taxi')
+  const [servicosOferecidos, setServicosOferecidos] = useState<string[]>(['passageiro', 'objeto'])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
       [name]: value
+    }))
+  }
+
+  const handleIdEmpresaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toUpperCase()
+    // Permitir apenas formato E seguido de números
+    const formattedValue = value.replace(/[^E0-9]/g, '')
+    setFormData(prev => ({
+      ...prev,
+      id_empresa: formattedValue
     }))
   }
 
@@ -52,12 +70,78 @@ export default function NovaEmpresaPage() {
     }))
   }
 
+  const handleTipoEmpresaChange = (tipo: 'taxi' | 'transportadora' | 'delivery' | 'multisservico') => {
+    setTipoEmpresa(tipo)
+    
+    // Atualizar serviços padrão conforme o tipo
+    const servicosPadrao = {
+      taxi: ['passageiro', 'objeto'],
+      transportadora: ['carga'],
+      delivery: ['objeto'],
+      multisservico: ['passageiro', 'objeto', 'carga']
+    }
+    setServicosOferecidos(servicosPadrao[tipo])
+  }
+
+  const handleServicoToggle = (servico: string) => {
+    setServicosOferecidos(prev => {
+      if (prev.includes(servico)) {
+        return prev.filter(s => s !== servico)
+      } else {
+        return [...prev, servico]
+      }
+    })
+  }
+
+  const handleLogoUpload = async (file: File) => {
+    if (!isImageFile(file)) {
+      toast.error('Por favor, selecione apenas arquivos de imagem (JPG, PNG, WEBP, SVG)')
+      return
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('O arquivo deve ter no máximo 5MB')
+      return
+    }
+
+    setUploadingLogo(true)
+    try {
+      // Criar preview
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setLogoPreview(e.target?.result as string)
+      }
+      reader.readAsDataURL(file)
+      
+      setLogoFile(file)
+      toast.success('Logo selecionado com sucesso!')
+    } catch (error) {
+      console.error('Erro ao processar logo:', error)
+      toast.error('Erro ao processar o arquivo')
+    } finally {
+      setUploadingLogo(false)
+    }
+  }
+
+  const removeLogo = () => {
+    setLogoFile(null)
+    setLogoPreview(null)
+    toast.success('Logo removido')
+  }
+
   const validateForm = () => {
-    const required = ['empresa_nome', 'cnpj', 'empresa_endereco', 'empresa_telefone', 'slug']
+    const required = ['id_empresa', 'empresa_nome', 'cnpj', 'empresa_endereco', 'empresa_telefone', 'slug']
     const missing = required.filter(field => !formData[field as keyof NovaEmpresaForm])
     
     if (missing.length > 0) {
       toast.error('Por favor, preencha todos os campos obrigatórios')
+      return false
+    }
+
+    // Validar formato do ID da empresa (E + números)
+    const idRegex = /^E\d+$/
+    if (!idRegex.test(formData.id_empresa)) {
+      toast.error('ID da empresa deve estar no formato E1, E2, E3, etc.')
       return false
     }
 
@@ -75,6 +159,12 @@ export default function NovaEmpresaPage() {
       return false
     }
 
+    // Validar serviços oferecidos
+    if (servicosOferecidos.length === 0) {
+      toast.error('Selecione pelo menos um serviço oferecido')
+      return false
+    }
+
     return true
   }
 
@@ -88,15 +178,33 @@ export default function NovaEmpresaPage() {
     setLoading(true)
 
     try {
-      // Gerar ID único para a empresa
-      const empresas = await supabase.from('empresas').select('id_empresa').order('id_empresa', { ascending: false }).limit(1)
-      const lastId = empresas.data?.[0]?.id_empresa || 'E0'
-      const newId = `E${parseInt(lastId.substring(1)) + 1}`
+      // Verificar se o ID da empresa já existe
+      const { data: existingEmpresa, error: checkError } = await supabase
+        .from('empresas')
+        .select('id_empresa')
+        .eq('id_empresa', formData.id_empresa)
+        .single()
+
+      if (existingEmpresa) {
+        toast.error('Já existe uma empresa com este ID. Escolha outro ID.')
+        return
+      }
+
+      // Upload do logo se existir
+      let logoUrl = null
+      if (logoFile) {
+        const uploadResult = await uploadEmpresaLogo(logoFile, formData.id_empresa)
+        if (uploadResult.success && uploadResult.url) {
+          logoUrl = uploadResult.url
+        } else {
+          throw new Error(uploadResult.error || 'Erro no upload do logo')
+        }
+      }
 
       const { error } = await supabase
         .from('empresas')
         .insert({
-          id_empresa: newId,
+          id_empresa: formData.id_empresa,
           empresa_nome: formData.empresa_nome,
           cnpj: formData.cnpj,
           empresa_endereco: formData.empresa_endereco,
@@ -104,9 +212,12 @@ export default function NovaEmpresaPage() {
           empresa_cidade: formData.empresa_cidade || null,
           empresa_estado: formData.empresa_estado || null,
           empresa_perimetro_entrega: formData.empresa_perimetro_entrega || null,
+          empresa_logo: logoUrl,
           slug: formData.slug,
           cor_primaria: formData.cor_primaria,
           cor_secundaria: formData.cor_secundaria,
+          tipo_empresa: tipoEmpresa,
+          servicos_oferecidos: servicosOferecidos,
           ativa: true
         })
 
@@ -119,7 +230,9 @@ export default function NovaEmpresaPage() {
     } catch (error: any) {
       console.error('Erro ao criar empresa:', error)
       if (error.code === '23505') {
-        if (error.message.includes('cnpj')) {
+        if (error.message.includes('id_empresa')) {
+          toast.error('Já existe uma empresa com este ID. Escolha outro ID.')
+        } else if (error.message.includes('cnpj')) {
           toast.error('Já existe uma empresa com este CNPJ')
         } else if (error.message.includes('slug')) {
           toast.error('Já existe uma empresa com este slug. Tente outro nome.')
@@ -183,6 +296,33 @@ export default function NovaEmpresaPage() {
                   />
                 </div>
 
+                {/* ID da Empresa */}
+                <div className="form-group">
+                  <label htmlFor="id_empresa" className="form-label">
+                    ID da Empresa *
+                  </label>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      id="id_empresa"
+                      name="id_empresa"
+                      value={formData.id_empresa}
+                      onChange={handleIdEmpresaChange}
+                      className="input flex-1"
+                      placeholder="Ex: E1, E2, E3..."
+                      disabled={loading}
+                      required
+                      maxLength={10}
+                    />
+                    <div className="text-sm text-gray-500 whitespace-nowrap">
+                      Pedidos: {formData.id_empresa}-001, {formData.id_empresa}-002...
+                    </div>
+                  </div>
+                  <p className="form-help">
+                    Este ID será usado para identificar pedidos da empresa (ex: {formData.id_empresa || 'E1'}-001, {formData.id_empresa || 'E1'}-002)
+                  </p>
+                </div>
+
                 {/* CNPJ */}
                 <div className="form-group">
                   <label htmlFor="cnpj" className="form-label">
@@ -199,6 +339,72 @@ export default function NovaEmpresaPage() {
                     disabled={loading}
                     required
                   />
+                </div>
+
+                {/* Tipo de Empresa */}
+                <div className="form-group">
+                  <label className="form-label">
+                    Tipo de Empresa *
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { value: 'taxi', label: '🚕 Taxi / Moto-Taxi', desc: 'Passageiros e objetos pequenos' },
+                      { value: 'delivery', label: '📦 Entrega Express', desc: 'Apenas entregas' },
+                      { value: 'transportadora', label: '🚚 Transportadora', desc: 'Cargas e mudanças' },
+                      { value: 'multisservico', label: '🔄 Multisserviço', desc: 'Todos os tipos' }
+                    ].map(tipo => (
+                      <button
+                        key={tipo.value}
+                        type="button"
+                        onClick={() => handleTipoEmpresaChange(tipo.value as any)}
+                        className={`p-3 border-2 rounded-lg text-left transition-all ${
+                          tipoEmpresa === tipo.value
+                            ? 'border-primary-500 bg-primary-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                        disabled={loading}
+                      >
+                        <div className="font-medium text-sm">{tipo.label}</div>
+                        <div className="text-xs text-gray-500 mt-1">{tipo.desc}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Serviços Oferecidos */}
+                <div className="form-group">
+                  <label className="form-label">
+                    Serviços Oferecidos *
+                  </label>
+                  <div className="space-y-2">
+                    {[
+                      { value: 'passageiro', label: '👤 Transporte de Passageiros', desc: 'Pessoas' },
+                      { value: 'objeto', label: '📦 Entrega de Objetos', desc: 'Encomendas, documentos, comida' },
+                      { value: 'carga', label: '🚚 Transporte de Carga', desc: 'Mudanças, cargas pesadas' }
+                    ].map(servico => (
+                      <label
+                        key={servico.value}
+                        className="flex items-start p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={servicosOferecidos.includes(servico.value)}
+                          onChange={() => handleServicoToggle(servico.value)}
+                          className="mt-1 h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                          disabled={loading}
+                        />
+                        <div className="ml-3">
+                          <div className="font-medium text-sm">{servico.label}</div>
+                          <div className="text-xs text-gray-500">{servico.desc}</div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                  <p className="form-help mt-2">
+                    Selecionados: {servicosOferecidos.length > 0 
+                      ? servicosOferecidos.join(', ') 
+                      : 'Nenhum (selecione pelo menos um)'}
+                  </p>
                 </div>
 
                 {/* Endereço */}
@@ -387,6 +593,88 @@ export default function NovaEmpresaPage() {
                       />
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Logo da Empresa */}
+            <div className="card">
+              <div className="card-header">
+                <h3 className="text-lg font-medium text-gray-900">
+                  Logo da Empresa
+                </h3>
+              </div>
+              <div className="card-body">
+                <div className="form-group">
+                  <label className="form-label">
+                    Logo da Empresa
+                  </label>
+                  
+                  {!logoPreview ? (
+                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-gray-400 transition-colors">
+                      <div className="space-y-1 text-center">
+                        <Image className="mx-auto h-12 w-12 text-gray-400" />
+                        <div className="flex text-sm text-gray-600">
+                          <label
+                            htmlFor="logo-upload"
+                            className="relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                          >
+                            <span>Fazer upload do logo</span>
+                            <input
+                              id="logo-upload"
+                              name="logo-upload"
+                              type="file"
+                              className="sr-only"
+                              accept="image/jpeg,image/jpg,image/png,image/webp,image/svg+xml"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0]
+                                if (file) {
+                                  handleLogoUpload(file)
+                                }
+                              }}
+                              disabled={uploadingLogo || loading}
+                            />
+                          </label>
+                          <p className="pl-1">ou arraste e solte aqui</p>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          PNG, JPG, WEBP, SVG até 5MB
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mt-1">
+                      <div className="relative inline-block">
+                        <img
+                          src={logoPreview}
+                          alt="Preview do logo"
+                          className="h-32 w-32 object-contain rounded-lg border border-gray-200 bg-gray-50"
+                        />
+                        <button
+                          type="button"
+                          onClick={removeLogo}
+                          className="absolute -top-2 -right-2 h-6 w-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                          disabled={loading}
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <p className="mt-2 text-sm text-gray-600">
+                        {logoFile && `${logoFile.name} (${formatFileSize(logoFile.size)})`}
+                      </p>
+                    </div>
+                  )}
+
+                  {uploadingLogo && (
+                    <div className="mt-2 flex items-center text-sm text-blue-600">
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                      Processando logo...
+                    </div>
+                  )}
+
+                  <p className="form-help">
+                    O logo será exibido na interface da empresa. Recomendamos uma imagem quadrada com fundo transparente.
+                  </p>
                 </div>
               </div>
             </div>

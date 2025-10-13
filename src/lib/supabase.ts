@@ -28,13 +28,12 @@ export const createBrowserSupabaseClient = () => createClient(
 )
 
 // Cliente para uso no servidor (com service role)
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+// Nota: SERVICE_ROLE_KEY só está disponível no lado do servidor (não no browser)
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-export const supabaseAdmin = createClient(
-  supabaseUrl,
-  serviceRoleKey,
-  supabaseOptions
-)
+export const supabaseAdmin = serviceRoleKey 
+  ? createClient(supabaseUrl, serviceRoleKey, supabaseOptions)
+  : null as any // Para evitar erro no browser, usa null
 
 // Tipos TypeScript baseados no banco de dados
 export type Database = {

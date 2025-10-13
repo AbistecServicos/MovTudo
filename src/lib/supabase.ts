@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 
 // TEMPORÁRIO: Hard-coded para debug
 const supabaseUrl = 'https://buxpuusxglavepfrivwg.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1eHB1dXN4Z2xhdmVwZnJpdmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMTkxNjQsImV4cCI6MjA3NTc5NTE2NH0.GhELCIA6KgxKUCR62THqHHW-PnAD-tzR4mFj6CHXoIo'
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1eHB1dXN4Z2xhdmVwZnJpdndnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMTkxNjQsImV4cCI6MjA3NTc5NTE2NH0.GhELCIA6KgxKUCR62THqHHW-PnAD-tzR4mFj6CHXoIo'
 
 console.log('🔧 DEBUG SUPABASE:');
 console.log('URL:', supabaseUrl);

@@ -110,3 +110,39 @@ jspm_packages/
 # Temporary folders
 tmp/
 temp/
+
+# Pasta de anotações pessoais (não enviar para GitHub)
+PastaPessoal/
+
+# Scripts temporários e de debug (manter apenas essenciais)
+scripts/DEBUG-*.sql
+scripts/VER-*.sql
+scripts/SOLUCAO-*.sql
+scripts/CORRECAO-*.sql
+scripts/CORRIGIR-*.sql
+scripts/CHECAR-*.sql
+scripts/VERIFICAR-*.sql
+scripts/APLICAR-*.sql
+scripts/EXECUTAR-*.sql
+scripts/LIMPAR-*.sql
+scripts/POLITICA-*.sql
+scripts/test-*.js
+scripts/check-*.js
+scripts/*-sondar-*.sql
+scripts/diagnostico-*.sql
+scripts/sondagem-*.sql
+scripts/associar-*.sql
+scripts/atualizar-*.sql
+scripts/checar-*.sql
+scripts/confirmar-*.sql
+scripts/contar-*.sql
+scripts/criar-*.sql
+scripts/deletar-*.sql
+scripts/insert-*.js
+scripts/sync-*.js
+scripts/show-*.js
+scripts/instrucoes-*.md
+scripts/criar-usuarios-corretos.md
+scripts/*-adicionar-*.sql
+scripts/*-criar-*.sql
+scripts/*-RECRIAR-*.sql

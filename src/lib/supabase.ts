@@ -1,22 +1,30 @@
 import { createClient } from '@supabase/supabase-js'
 
-// TEMPORÁRIO: Hard-coded para debug
-const supabaseUrl = 'https://buxpuusxglavepfrivwg.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1eHB1dXN4Z2xhdmVwZnJpdndnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMTkxNjQsImV4cCI6MjA3NTc5NTE2NH0.GhELCIA6KgxKUCR62THqHHW-PnAD-tzR4mFj6CHXoIo'
+// Validação de variáveis de ambiente
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-console.log('🔧 DEBUG SUPABASE:');
-console.log('URL:', supabaseUrl);
-console.log('Key:', supabaseAnonKey ? 'EXISTS' : 'NOT FOUND');
-console.log('Env URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
-console.log('Env Key:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'EXISTS' : 'NOT FOUND');
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Variáveis de ambiente do Supabase não configuradas. Verifique NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY')
+}
+
+// Configurações otimizadas para desenvolvimento
+const supabaseOptions = {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInPersist: true,
+  },
+}
 
 // Cliente para uso no lado do cliente (browser)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, supabaseOptions)
 
 // Cliente para componentes React (com SSR)
 export const createBrowserSupabaseClient = () => createClient(
   supabaseUrl,
-  supabaseAnonKey
+  supabaseAnonKey,
+  supabaseOptions
 )
 
 // Cliente para uso no servidor (com service role)
@@ -24,7 +32,8 @@ const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export const supabaseAdmin = createClient(
   supabaseUrl,
-  serviceRoleKey
+  serviceRoleKey,
+  supabaseOptions
 )
 
 // Tipos TypeScript baseados no banco de dados

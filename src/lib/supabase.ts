@@ -1,12 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Configurações do Supabase (hard-coded para garantir que funciona)
-const supabaseUrl = 'https://buxpuusxglavepfrivwg.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1eHB1dXN4Z2xhdmVwZnJpdndnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMTkxNjQsImV4cCI6MjA3NTc5NTE2NH0.GhELCIA6KgxKUCR62THqHHW-PnAD-tzR4mFj6CHXoIo'
+// Configurações do Supabase usando variáveis de ambiente
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 // Validar
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Supabase configuration is missing')
+  throw new Error('Supabase configuration is missing. Check your environment variables.')
 }
 
 // Cliente para uso no lado do cliente (browser)
@@ -19,7 +19,7 @@ export const createBrowserSupabaseClient = () => createClient(
 )
 
 // Cliente para uso no servidor (com service role)
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1eHB1dXN4Z2xhdmVwZnJpdndnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDIxOTE2NCwiZXhwIjoyMDc1Nzk1MTY0fQ.s6b7mByPi-xbaTqbKnkJPXJNMeOPSLKMGNMclQ8jVHM'
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export const supabaseAdmin = createClient(
   supabaseUrl,

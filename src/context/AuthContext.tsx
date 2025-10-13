@@ -248,8 +248,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         // Se marcou como admin, vamos atualizar depois
         if (userData.is_admin) {
-          toast.success('Conta criada com sucesso! Aguarde...')
-          toast.info('Você será promovido a administrador em alguns segundos.')
+          toast.success('Conta criada com sucesso! Você será promovido a administrador em alguns segundos.')
           
           // Aguardar um pouco e atualizar para admin
           setTimeout(async () => {
@@ -257,7 +256,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               await supabase
                 .from('usuarios')
                 .update({ is_admin: true })
-                .eq('uid', data.user.id)
+                .eq('uid', data.user?.id || '')
               
               toast.success('✅ Você agora é administrador do sistema!')
             } catch (updateError) {
@@ -275,7 +274,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Se for erro de CORS/403, sugerir configuração manual
       if (error.message.includes('CORS') || error.message.includes('403')) {
         toast.error('Erro de configuração. Configure o Supabase Auth primeiro.')
-        toast.info('💡 Acesse: Supabase → Authentication → Settings')
+        toast.success('💡 Acesse: Supabase → Authentication → Settings')
       } else {
         toast.error(error.message || 'Erro ao criar conta')
       }

@@ -97,8 +97,7 @@ export default function CadastroEmpresaPage() {
         is_admin: false
       })
 
-      toast.success('Conta criada com sucesso!')
-      toast.info('Verifique seu email para confirmar o cadastro')
+      toast.success('Conta criada com sucesso! Verifique seu email para confirmar o cadastro')
       
       // Redirecionar para login após 2 segundos
       setTimeout(() => {

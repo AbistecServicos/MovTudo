@@ -250,7 +250,7 @@ export interface AuthContextType {
   empresa: Empresa | null
   empresaAssociada: EmpresaAssociada | null
   loading: boolean
-  signIn: (email: string, password: string) => Promise<void>
+  signIn: (email: string, password: string) => Promise<boolean>
   signUp: (email: string, password: string, userData: Partial<User>) => Promise<void>
   signOut: () => Promise<void>
   refreshUser: () => Promise<void>

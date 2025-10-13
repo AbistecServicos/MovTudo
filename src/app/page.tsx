@@ -74,10 +74,10 @@ export default function HomePage() {
                 <Users className="h-6 w-6 text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Plataforma SaaS
+                WebApp Personalizado
               </h3>
               <p className="text-gray-600">
-                Sistema multiempresa onde cada empresa acessa via seu próprio slug (ex: /moto-taxi-express) e gerencia seus próprios transportadores.
+                A MovTudo lhe fornecerá um webapp exclusivo e escalável, acessível via diretório dedicado no site movtudo.com, com domínio próprio incluso para total personalização. Assim, você gerencia seus transportadores de forma independente, segura e totalmente adaptada às suas necessidades.
               </p>
             </div>
 

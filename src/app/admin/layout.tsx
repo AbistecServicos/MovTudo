@@ -12,7 +12,8 @@ import {
   Settings, 
   LogOut,
   Menu,
-  X
+  X,
+  Mail
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -62,6 +63,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { name: 'Dashboard', href: '/admin', icon: BarChart3 },
     { name: 'Empresas', href: '/admin/empresas', icon: Building2 },
     { name: 'Usuários', href: '/admin/usuarios', icon: Users },
+    { name: 'Mensagens', href: '/admin/mensagens', icon: Mail },
     { name: 'Relatórios', href: '/admin/relatorios', icon: BarChart3 },
     { name: 'Configurações', href: '/admin/configuracoes', icon: Settings },
   ]

@@ -74,10 +74,10 @@ export default function HomePage() {
                 <Users className="h-6 w-6 text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Multiempresa
+                Plataforma SaaS
               </h3>
               <p className="text-gray-600">
-                Gerencie múltiplas empresas de transporte com usuários e permissões independentes.
+                Sistema multiempresa onde cada empresa acessa via seu próprio slug (ex: /moto-taxi-express) e gerencia seus próprios transportadores.
               </p>
             </div>
 

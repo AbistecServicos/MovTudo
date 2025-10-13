@@ -155,8 +155,8 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-white mb-4">
             Pronto para começar?
           </h2>
-          <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-            Entre em contato com a Abistec Serviços Tecnológicos para criar sua empresa de transporte e começar a gerenciar suas corridas.
+          <p className="text-xl text-primary-100 mb-8 max-w-3xl mx-auto">
+            Entre em contato com a Abistec Serviços Tecnológicos para ativar o sistema e começar a gerenciar sua frota de transportadores ou transportes individuais de passageiros, objetos e cargas de forma eficiente, rápida e totalmente organizada.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/login" className="btn btn-lg bg-white text-primary-600 hover:bg-gray-100">

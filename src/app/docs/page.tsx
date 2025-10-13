@@ -12,6 +12,10 @@ export default function DocsPage() {
               <ArrowLeft className="h-5 w-5 mr-2" />
               Voltar
             </Link>
+            <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+              <Car className="h-6 w-6 text-primary-600 mr-2" />
+              <span className="text-lg font-bold text-gray-900">MovTudo</span>
+            </Link>
           </div>
         </div>
       </header>

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowLeft, Mail, Phone, MapPin, MessageCircle } from 'lucide-react'
+import { ArrowLeft, Mail, Phone, MapPin, MessageCircle, Car } from 'lucide-react'
 
 export default function ContatoPage() {
   return (
@@ -11,6 +11,10 @@ export default function ContatoPage() {
             <Link href="/" className="flex items-center text-gray-600 hover:text-gray-900">
               <ArrowLeft className="h-5 w-5 mr-2" />
               Voltar
+            </Link>
+            <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+              <Car className="h-6 w-6 text-primary-600 mr-2" />
+              <span className="text-lg font-bold text-gray-900">MovTudo</span>
             </Link>
           </div>
         </div>
@@ -62,11 +66,11 @@ export default function ContatoPage() {
               Envie um email para nós. Respondemos em até 24 horas úteis.
             </p>
             <a 
-              href="mailto:abistec.almir@gmail.com" 
+              href="mailto:comercial@abistec.com.br" 
               className="btn btn-secondary w-full"
             >
               <Mail className="mr-2 h-5 w-5" />
-              abistec.almir@gmail.com
+              comercial@abistec.com.br
             </a>
           </div>
 

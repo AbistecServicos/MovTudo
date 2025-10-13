@@ -12,7 +12,7 @@ import {
   DollarSign,
   Activity
 } from 'lucide-react'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 
 interface DashboardStats {
   totalEmpresas: number
@@ -46,23 +46,23 @@ export default function AdminDashboardPage() {
     try {
       console.log('📊 Carregando estatísticas do dashboard admin...')
       
-      // Buscar estatísticas das empresas (usando supabaseAdmin para ignorar RLS)
-      const { data: empresasData } = await supabaseAdmin
+      // Buscar estatísticas das empresas (usando supabase para ignorar RLS)
+      const { data: empresasData } = await supabase
         .from('empresas')
         .select('id, ativa')
 
       // Buscar estatísticas dos usuários
-      const { data: usuariosData } = await supabaseAdmin
+      const { data: usuariosData } = await supabase
         .from('usuarios')
         .select('id')
 
       // Buscar estatísticas das corridas
-      const { data: corridasData } = await supabaseAdmin
+      const { data: corridasData } = await supabase
         .from('corridas')
         .select('id, status_transporte, data, preco_calculado')
 
       // Buscar transportadores ativos
-      const { data: transportadoresData } = await supabaseAdmin
+      const { data: transportadoresData } = await supabase
         .from('empresa_associada')
         .select('id')
         .eq('funcao', 'transportador')

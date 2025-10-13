@@ -7,7 +7,7 @@ import {
   ArrowLeft, Building2, MapPin, Phone, Calendar, Users, Edit, Globe, 
   ExternalLink, User, Car, Briefcase, Shield, CheckCircle, XCircle 
 } from 'lucide-react'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 import { Empresa, EmpresaAssociada } from '@/types'
 import toast from 'react-hot-toast'
 
@@ -37,7 +37,7 @@ export default function EmpresaDetailPage() {
       console.log('🔍 Buscando empresa:', identifier)
       
       // Tentar buscar por ID numérico primeiro
-      let query = supabaseAdmin.from('empresas').select('*')
+      let query = supabase.from('empresas').select('*')
       
       // Verificar se é número
       if (/^\d+$/.test(identifier)) {
@@ -73,7 +73,7 @@ export default function EmpresaDetailPage() {
     try {
       console.log('👥 Buscando usuários da empresa:', idEmpresa)
       
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await supabase
         .from('empresa_associada')
         .select('*')
         .eq('id_empresa', idEmpresa)
@@ -95,7 +95,7 @@ export default function EmpresaDetailPage() {
       console.log('📊 Carregando estatísticas da empresa:', idEmpresa)
       
       // Contar gerentes
-      const { count: gerentesCount } = await supabaseAdmin
+      const { count: gerentesCount } = await supabase
         .from('empresa_associada')
         .select('*', { count: 'exact', head: true })
         .eq('id_empresa', idEmpresa)
@@ -103,7 +103,7 @@ export default function EmpresaDetailPage() {
         .eq('status_vinculacao', 'ativo')
 
       // Contar transportadores
-      const { count: transportadoresCount } = await supabaseAdmin
+      const { count: transportadoresCount } = await supabase
         .from('empresa_associada')
         .select('*', { count: 'exact', head: true })
         .eq('id_empresa', idEmpresa)
@@ -111,7 +111,7 @@ export default function EmpresaDetailPage() {
         .eq('status_vinculacao', 'ativo')
 
       // Contar corridas
-      const { count: totalCorridasCount } = await supabaseAdmin
+      const { count: totalCorridasCount } = await supabase
         .from('corridas')
         .select('*', { count: 'exact', head: true })
         .eq('id_empresa', idEmpresa)
@@ -119,7 +119,7 @@ export default function EmpresaDetailPage() {
       // Contar corridas de hoje
       const hoje = new Date()
       hoje.setHours(0, 0, 0, 0)
-      const { count: corridasHojeCount } = await supabaseAdmin
+      const { count: corridasHojeCount } = await supabase
         .from('corridas')
         .select('*', { count: 'exact', head: true })
         .eq('id_empresa', idEmpresa)
@@ -130,7 +130,7 @@ export default function EmpresaDetailPage() {
       inicioMes.setDate(1)
       inicioMes.setHours(0, 0, 0, 0)
       
-      const { data: corridasMes } = await supabaseAdmin
+      const { data: corridasMes } = await supabase
         .from('corridas')
         .select('preco_calculado')
         .eq('id_empresa', idEmpresa)

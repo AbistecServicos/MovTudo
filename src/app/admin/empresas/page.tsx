@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Plus, Building2, MapPin, Phone, Users, Edit, Trash2, Eye } from 'lucide-react'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 import { Empresa } from '@/types'
 import toast from 'react-hot-toast'
 import { useAuth } from '@/context/AuthContext'
@@ -21,8 +21,8 @@ export default function EmpresasPage() {
     try {
       console.log('🔍 Buscando empresas...')
       
-      // Usa supabaseAdmin para ignorar RLS e permitir que admin veja todas as empresas
-      const { data, error } = await supabaseAdmin
+      // Admin tem permissão via RLS para ver todas as empresas
+      const { data, error } = await supabase
         .from('empresas')
         .select('*')
         .order('data_criacao', { ascending: false })
@@ -48,7 +48,7 @@ export default function EmpresasPage() {
     }
 
     try {
-      const { error } = await supabaseAdmin
+      const { error } = await supabase
         .from('empresas')
         .delete()
         .eq('id', id)
@@ -67,7 +67,7 @@ export default function EmpresasPage() {
 
   const toggleEmpresaStatus = async (id: number, ativa: boolean, nome: string) => {
     try {
-      const { error } = await supabaseAdmin
+      const { error } = await supabase
         .from('empresas')
         .update({ ativa: !ativa })
         .eq('id', id)

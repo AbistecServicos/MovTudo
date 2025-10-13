@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Save, Building2, Loader2, Upload, Image, X, Trash2 } from 'lucide-react'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 import { uploadEmpresaLogo, deleteFile } from '@/lib/storage'
 import { Empresa } from '@/types'
 import toast from 'react-hot-toast'
@@ -46,7 +46,7 @@ export default function EditarEmpresaPage() {
       console.log('🔍 Carregando empresa ID:', empresaId)
       
       // Busca pela coluna 'id' (número inteiro)
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await supabase
         .from('empresas')
         .select('*')
         .eq('id', parseInt(empresaId))
@@ -193,7 +193,7 @@ export default function EditarEmpresaPage() {
       }
 
       // Atualizar no banco de dados
-      const { error } = await supabaseAdmin
+      const { error } = await supabase
         .from('empresas')
         .update({ 
           empresa_logo: uploadResult.url,
@@ -238,7 +238,7 @@ export default function EditarEmpresaPage() {
       await deleteFile(filePath)
 
       // Remover do banco de dados
-      const { error } = await supabaseAdmin
+      const { error } = await supabase
         .from('empresas')
         .update({ 
           empresa_logo: null,
@@ -272,7 +272,7 @@ export default function EditarEmpresaPage() {
     try {
       console.log('💾 Salvando alterações da empresa...')
       
-      const { error } = await supabaseAdmin
+      const { error } = await supabase
         .from('empresas')
         .update({
           empresa_nome: formData.empresa_nome,

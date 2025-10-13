@@ -1,16 +1,14 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Configurações do Supabase usando variáveis de ambiente
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+// TEMPORÁRIO: Hard-coded para debug
+const supabaseUrl = 'https://buxpuusxglavepfrivwg.supabase.co'
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1eHB1dXN4Z2xhdmVwZnJpdmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMTkxNjQsImV4cCI6MjA3NTc5NTE2NH0.GhELCIA6KgxKUCR62THqHHW-PnAD-tzR4mFj6CHXoIo'
 
-// Validar
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('❌ Supabase configuration missing:');
-  console.error('URL:', supabaseUrl || 'NOT FOUND');
-  console.error('Key:', supabaseAnonKey ? 'EXISTS' : 'NOT FOUND');
-  throw new Error('Supabase configuration is missing. Check your environment variables.')
-}
+console.log('🔧 DEBUG SUPABASE:');
+console.log('URL:', supabaseUrl);
+console.log('Key:', supabaseAnonKey ? 'EXISTS' : 'NOT FOUND');
+console.log('Env URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+console.log('Env Key:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'EXISTS' : 'NOT FOUND');
 
 // Cliente para uso no lado do cliente (browser)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)

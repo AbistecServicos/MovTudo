@@ -1,11 +1,14 @@
 import { createClient } from '@supabase/supabase-js'
 
 // Configurações do Supabase usando variáveis de ambiente
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
 // Validar
 if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('❌ Supabase configuration missing:');
+  console.error('URL:', supabaseUrl || 'NOT FOUND');
+  console.error('Key:', supabaseAnonKey ? 'EXISTS' : 'NOT FOUND');
   throw new Error('Supabase configuration is missing. Check your environment variables.')
 }
 

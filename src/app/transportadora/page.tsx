@@ -15,7 +15,8 @@ import {
   Plus,
   Eye,
   Edit,
-  Filter
+  Filter,
+  FileText
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -189,6 +190,36 @@ export default function TransportadoraPage() {
           </div>
         </div>
       </header>
+
+      {/* Template Info Banner */}
+      <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <FileText className="h-5 w-5 text-blue-400" />
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-blue-800">
+                    📋 Template do Modelo E2 - Transportadora
+                  </h3>
+                  <div className="mt-2 text-sm text-blue-700">
+                    <p>
+                      Este é o <strong>template frontend</strong> do painel/dashboard do <strong>gerente de uma transportadora</strong> 
+                      no <strong>Modelo E2 (Volta com Fé)</strong>. Aqui são apresentados alguns recursos que estão atualmente implementados.
+                    </p>
+                    <p className="mt-1">
+                      <strong>À medida que implementamos novos recursos, eles irão aparecendo aqui</strong> no modelo do painel 
+                      do gerente de uma empresa tipo transportadora (Modelo E2).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Stats Cards */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

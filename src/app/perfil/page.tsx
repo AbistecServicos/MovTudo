@@ -151,7 +151,18 @@ export default function PerfilPage() {
                 </div>
                 <div className="mt-4">
                   <button
-                    onClick={() => router.push(empresaAssociada.funcao === 'gerente' ? '/gerente' : '/transportador')}
+                    onClick={() => {
+                      if (empresaAssociada.funcao === 'gerente') {
+                        router.push('/gerente')
+                      } else if (empresaAssociada.funcao === 'transportador') {
+                        // Se for transportador de transportadora, vai para página específica
+                        if (empresa && empresa.tipo_empresa === 'transportadora') {
+                          router.push('/transportador-transportadora')
+                        } else {
+                          router.push('/transportador')
+                        }
+                      }
+                    }}
                     className="btn btn-primary"
                   >
                     Acessar Dashboard

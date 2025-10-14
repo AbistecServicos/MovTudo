@@ -274,11 +274,15 @@ export default function ModeloE2Page() {
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <Link href="/admin" className="flex items-center text-gray-600 hover:text-gray-900">
-              <ArrowLeft className="h-5 w-5 mr-2" />
-              Voltar ao Admin
-            </Link>
+            <div></div>
             <div className="flex items-center space-x-4">
+              <Link 
+                href="/admin"
+                className="btn btn-secondary flex items-center"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Voltar ao Admin
+              </Link>
               <Link 
                 href="/docs/modelos-empresas/E2-Transportadora.md" 
                 target="_blank"

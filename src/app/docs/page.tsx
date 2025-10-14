@@ -46,8 +46,8 @@ export default function DocsPage() {
           <p className="text-gray-600 mb-6">
             Esta página é acessível apenas para administradores do sistema.
           </p>
-          <Link href="/" className="btn btn-primary">
-            Voltar para Início
+          <Link href="/admin" className="btn btn-primary">
+            Voltar ao Admin
           </Link>
         </div>
       </div>
@@ -60,9 +60,9 @@ export default function DocsPage() {
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <Link href="/" className="flex items-center text-gray-600 hover:text-gray-900">
+            <Link href="/admin" className="flex items-center text-gray-600 hover:text-gray-900">
               <ArrowLeft className="h-5 w-5 mr-2" />
-              Voltar
+              Voltar ao Admin
             </Link>
             <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
               <Car className="h-6 w-6 text-primary-600 mr-2" />

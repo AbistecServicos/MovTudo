@@ -5,13 +5,15 @@ import { useParams, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { Empresa } from '@/types'
 import Link from 'next/link'
-import { Car, MapPin, Phone, Clock } from 'lucide-react'
+import { Car, MapPin, Phone, Clock, LogOut, User, Settings } from 'lucide-react'
+import { useAuth } from '@/context/AuthContext'
 import toast from 'react-hot-toast'
 
 export default function EmpresaPage() {
   const params = useParams()
   const router = useRouter()
   const slug = params.slug as string
+  const { user, signOut } = useAuth()
   
   const [empresa, setEmpresa] = useState<Empresa | null>(null)
   const [loading, setLoading] = useState(true)
@@ -43,6 +45,16 @@ export default function EmpresaPage() {
       router.push('/')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      await signOut()
+      toast.success('Logout realizado com sucesso!')
+    } catch (error) {
+      console.error('Erro no logout:', error)
+      toast.error('Erro ao fazer logout')
     }
   }
 
@@ -83,19 +95,44 @@ export default function EmpresaPage() {
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <Link 
-                href={`/${slug}/login`}
-                className="btn btn-secondary"
-              >
-                Entrar
-              </Link>
-              <Link 
-                href={`/${slug}/cadastro`}
-                className="btn btn-primary"
-                style={{ backgroundColor: empresa.cor_primaria }}
-              >
-                Cadastrar
-              </Link>
+              {user ? (
+                <>
+                  <div className="flex items-center space-x-2 text-gray-600">
+                    <User className="h-5 w-5" />
+                    <span className="text-sm font-medium">{user.nome || user.email}</span>
+                  </div>
+                  <Link 
+                    href="/perfil"
+                    className="btn btn-outline flex items-center"
+                  >
+                    <Settings className="h-4 w-4 mr-2" />
+                    Perfil
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-secondary flex items-center"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sair
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link 
+                    href={`/${slug}/login`}
+                    className="btn btn-secondary"
+                  >
+                    Entrar
+                  </Link>
+                  <Link 
+                    href={`/${slug}/cadastro`}
+                    className="btn btn-primary"
+                    style={{ backgroundColor: empresa.cor_primaria }}
+                  >
+                    Cadastrar
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -169,27 +206,55 @@ export default function EmpresaPage() {
       {/* Call to Action */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white rounded-lg shadow-xl p-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Pronto para começar?
-          </h2>
-          <p className="text-lg text-gray-600 mb-6">
-            Solicite sua corrida agora mesmo ou crie uma conta para ter acesso a benefícios exclusivos
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Link
-              href={`/${slug}/solicitar`}
-              className="btn btn-primary btn-lg"
-              style={{ backgroundColor: empresa.cor_primaria }}
-            >
-              Solicitar Corrida
-            </Link>
-            <Link
-              href="/cadastro"
-              className="btn btn-secondary btn-lg"
-            >
-              Criar Conta Grátis
-            </Link>
-          </div>
+          {user ? (
+            <>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Bem-vindo de volta!
+              </h2>
+              <p className="text-lg text-gray-600 mb-6">
+                Olá, {user.nome || 'Usuário'}! Pronto para solicitar sua próxima corrida?
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <Link
+                  href={`/${slug}/solicitar`}
+                  className="btn btn-primary btn-lg"
+                  style={{ backgroundColor: empresa.cor_primaria }}
+                >
+                  Solicitar Corrida
+                </Link>
+                <Link
+                  href="/perfil"
+                  className="btn btn-outline btn-lg"
+                >
+                  Meu Perfil
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Pronto para começar?
+              </h2>
+              <p className="text-lg text-gray-600 mb-6">
+                Solicite sua corrida agora mesmo ou crie uma conta para ter acesso a benefícios exclusivos
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <Link
+                  href={`/${slug}/solicitar`}
+                  className="btn btn-primary btn-lg"
+                  style={{ backgroundColor: empresa.cor_primaria }}
+                >
+                  Solicitar Corrida
+                </Link>
+                <Link
+                  href="/cadastro"
+                  className="btn btn-secondary btn-lg"
+                >
+                  Criar Conta Grátis
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </section>
 

@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GUIA_TESTES_AUGUSTO.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%F0%9F%A7%AA-guia-completo-de-testes---movtudo">🧪 GUIA COMPLETO DE TESTES - MovTudo</h1>
+<p><strong>Sistema:</strong> MovTudo - Plataforma SaaS de Transporte<br>
+<strong>URL Principal:</strong> https://movtudo.netlify.app/ <em>(pode estar pausado - use localhost)</em><br>
+<strong>URL Localhost:</strong> http://localhost:3000/ ✅ <strong>Use esta para testes!</strong><br>
+<strong>Data:</strong> Outubro de 2025<br>
+<strong>Preparado para:</strong> Augusto (Testes e Validação)</p>
+<hr>
+<h2 id="%E2%9A%A0%EF%B8%8F-importante-sobre-o-acesso">⚠️ <strong>IMPORTANTE: SOBRE O ACESSO</strong></h2>
+<h3 id="site-netlify-pausado-temporariamente"><strong>Site Netlify Pausado Temporariamente:</strong></h3>
+<p>O site https://movtudo.netlify.app/ pode estar <strong>temporariamente pausado</strong> devido ao limite do plano gratuito do Netlify (muitos deploys de teste hoje).</p>
+<h3 id="%E2%9C%85-solu%C3%A7%C3%A3o-use-localhost"><strong>✅ SOLUÇÃO: Use Localhost</strong></h3>
+<p><strong>Para testes, use:</strong> <code>http://localhost:3000/</code></p>
+<p><strong>Se você (Augusto) estiver testando:</strong></p>
+<ul>
+<li><strong>Na mesma casa/rede do Almir:</strong> Pergunte o IP dele (ex: <code>http://192.168.1.100:3000/</code>)</li>
+<li><strong>Remotamente:</strong> O Almir precisa deixar o servidor rodando e compartilhar acesso</li>
+</ul>
+<p><strong>O sistema funciona EXATAMENTE IGUAL em localhost!</strong></p>
+<hr>
+<h2 id="%F0%9F%93%96-%C3%ADndice">📖 <strong>ÍNDICE</strong></h2>
+<ol>
+<li><a href="#o-que-%C3%A9-o-movtudo">O que é o MovTudo?</a></li>
+<li><a href="#como-o-sistema-funciona">Como o Sistema Funciona</a></li>
+<li><a href="#empresas-cadastradas">Empresas Cadastradas</a></li>
+<li><a href="#usu%C3%A1rios-e-senhas">Usuários e Senhas</a></li>
+<li><a href="#cen%C3%A1rio-1-moto-taxi-express">Cenário 1: Moto Taxi (E1)</a></li>
+<li><a href="#cen%C3%A1rio-2-volta-com-f%C3%A9-transportes">Cenário 2: Transportadora de Carga (E2)</a></li>
+<li><a href="#cen%C3%A1rio-3-a%C3%A7a%C3%AD-delivery">Cenário 3: Delivery Local (E3)</a></li>
+<li><a href="#cen%C3%A1rio-4-taxi-sul">Cenário 4: Taxi Tradicional (E4)</a></li>
+<li><a href="#checklist-de-testes">Checklist de Testes</a></li>
+<li><a href="#problemas-comuns">Problemas Comuns</a></li>
+</ol>
+<hr>
+<h2 id="%F0%9F%8E%AF-o-que-%C3%A9-o-movtudo">🎯 <strong>O QUE É O MOVTUDO?</strong></h2>
+<p>O <strong>MovTudo</strong> é uma <strong>plataforma SaaS</strong> (Software como Serviço) que permite <strong>múltiplas empresas de transporte</strong> operarem de forma independente no mesmo sistema.</p>
+<h3 id="analogia-simples"><strong>Analogia Simples:</strong></h3>
+<p>Imagine um <strong>shopping center</strong>:</p>
+<ul>
+<li>O shopping é o <strong>MovTudo</strong> (você, Abistec, é o dono)</li>
+<li>Cada loja é uma <strong>empresa de transporte</strong> (E1, E2, E3, E4)</li>
+<li>Cada loja tem seus próprios funcionários e clientes</li>
+<li>Cada loja não vê o que acontece nas outras lojas</li>
+<li>Você (dono) vê tudo de todas as lojas</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%8F%97%EF%B8%8F-como-o-sistema-funciona">🏗️ <strong>COMO O SISTEMA FUNCIONA</strong></h2>
+<h3 id="estrutura-de-urls"><strong>Estrutura de URLs:</strong></h3>
+<pre class="hljs"><code><div>http://localhost:3000/                 → Página inicial
+http://localhost:3000/admin            → Painel do Admin (Almir)
+http://localhost:3000/moto-taxi-express → Empresa E1
+http://localhost:3000/volta-com-fe     → Empresa E2
+http://localhost:3000/acai-delivery    → Empresa E3
+http://localhost:3000/taxi-sul         → Empresa E4
+</div></code></pre>
+<p><strong>Nota:</strong> Substitua <code>localhost</code> pelo IP do Almir se estiver em outra máquina na mesma rede.</p>
+<p>Cada empresa tem seu <strong>&quot;endereço&quot; único</strong> (chamado de <strong>slug</strong>).</p>
+<hr>
+<h3 id="tipos-de-usu%C3%A1rios"><strong>Tipos de Usuários:</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Descrição</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>👑 <strong>Admin</strong></td>
+<td>Almir (Abistec)</td>
+<td>Cria empresas, vê tudo, gerencia sistema completo</td>
+</tr>
+<tr>
+<td>🧑‍💼 <strong>Gerente</strong></td>
+<td>Gerente da empresa</td>
+<td>Cadastra transportadores, cria corridas, vê relatórios DA SUA empresa</td>
+</tr>
+<tr>
+<td>🚗 <strong>Transportador</strong></td>
+<td>Motorista/Motoboy</td>
+<td>Aceita corridas, atualiza status, vê SUAS corridas</td>
+</tr>
+<tr>
+<td>👤 <strong>Cliente</strong></td>
+<td>Quem pede transporte</td>
+<td>Solicita corridas, acompanha status, avalia</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%8F%A2-empresas-cadastradas">🏢 <strong>EMPRESAS CADASTRADAS</strong></h2>
+<h3 id="e1---moto-taxi-express-%F0%9F%8F%8D%EF%B8%8F"><strong>E1 - Moto Taxi Express</strong> 🏍️</h3>
+<p><strong>Tipo de Negócio:</strong> Transporte de passageiros via moto<br>
+<strong>URL:</strong> https://movtudo.netlify.app/moto-taxi-express<br>
+<strong>Como funciona:</strong> Cliente solicita corrida, motoboy aceita e leva passageiro</p>
+<table>
+<thead>
+<tr>
+<th>Usuário</th>
+<th>Nome</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gerente1_movtudo_e1@abistec.com.br</code></td>
+<td>Carlos Silva</td>
+<td>Gerente</td>
+</tr>
+<tr>
+<td><code>transportador1_movtudo@abistec.com.br</code></td>
+<td>João Motoboy</td>
+<td>Transportador</td>
+</tr>
+<tr>
+<td><code>transportador2.e1@abistec.com.br</code></td>
+<td>Pedro Motoqueiro</td>
+<td>Transportador</td>
+</tr>
+<tr>
+<td><code>cliente1.e1@abistec.com.br</code></td>
+<td>Maria Oliveira</td>
+<td>Cliente</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Senha de todos:</strong> <code>{Prefixo do email}*</code><br>
+Exemplo: <code>cliente1.e1@abistec.com.br</code> → Senha: <code>Cliente1.e1*</code></p>
+<hr>
+<h3 id="e2---volta-com-f%C3%A9-transportes-%F0%9F%9A%9B"><strong>E2 - Volta com Fé Transportes</strong> 🚛</h3>
+<p><strong>Tipo de Negócio:</strong> Transportadora de cargas pesadas (trucks e carretas)<br>
+<strong>URL:</strong> https://movtudo.netlify.app/volta-com-fe<br>
+<strong>Como funciona:</strong> Empresas (Pepsi, Coca-Cola) solicitam transporte de cargas, caminhoneiros aceitam</p>
+<table>
+<thead>
+<tr>
+<th>Usuário</th>
+<th>Nome</th>
+<th>Função</th>
+<th>Veículo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gerente1.e2@abistec.com.br</code></td>
+<td>Roberto Caminhoneiro</td>
+<td>Gerente</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>transportador1.e2@abistec.com.br</code></td>
+<td>José Caminhoneiro</td>
+<td>Transportador</td>
+<td>Truck (8 ton)</td>
+</tr>
+<tr>
+<td><code>cliente1.e2@abistec.com.br</code></td>
+<td>Distribuidora Pepsi RJ</td>
+<td>Cliente B2B</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Senha de todos:</strong> <code>{Prefixo}*</code><br>
+Exemplo: <code>Gerente1.e2*</code>, <code>Transportador1.e2*</code>, <code>Cliente1.e2*</code></p>
+<hr>
+<h3 id="e3---a%C3%A7a%C3%AD-delivery-%F0%9F%9B%B5"><strong>E3 - Açaí Delivery</strong> 🛵</h3>
+<p><strong>Tipo de Negócio:</strong> Loja física que entrega produtos (modelo EntregasWoo)<br>
+<strong>URL:</strong> https://movtudo.netlify.app/acai-delivery<br>
+<strong>Como funciona:</strong> Cliente compra na loja → Atendente cria pedido → Entregador aceita e entrega</p>
+<table>
+<thead>
+<tr>
+<th>Usuário</th>
+<th>Nome</th>
+<th>Função</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code></code></td>
+<td>Juliana Atendente</td>
+<td>Gerente</td>
+<td>Recebe pedidos e cria no sistema</td>
+</tr>
+<tr>
+<td><code>transportador1.e3@abistec.com.br</code></td>
+<td>Lucas Entregador</td>
+<td>Transportador</td>
+<td>Moto</td>
+</tr>
+<tr>
+<td><code>transportador2.e3@abistec.com.br</code></td>
+<td>Rafael Motoboy</td>
+<td>Transportador</td>
+<td>Moto</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Diferencial:</strong> <strong>NÃO</strong> tem cliente cadastrado! O cliente compra na loja física e a Juliana (gerente) que cria o pedido de entrega.</p>
+<hr>
+<h3 id="e4---taxi-sul-%F0%9F%9A%95"><strong>E4 - Taxi Sul</strong> 🚕</h3>
+<p><strong>Tipo de Negócio:</strong> Taxi tradicional (cliente liga ou usa app)<br>
+<strong>URL:</strong> https://movtudo.netlify.app/taxi-sul<br>
+<strong>Como funciona:</strong> Cliente solicita taxi (app ou telefone) → Taxista aceita → Transporta</p>
+<table>
+<thead>
+<tr>
+<th>Usuário</th>
+<th>Nome</th>
+<th>Função</th>
+<th>Veículo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gerente1.e4@abistec.com.br</code></td>
+<td>Fernando Despachante</td>
+<td>Gerente</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>transportador1.e4@abistec.com.br</code></td>
+<td>Marcelo Taxista</td>
+<td>Transportador</td>
+<td>Fiat Uno</td>
+</tr>
+<tr>
+<td><code>transportador2.e4@abistec.com.br</code></td>
+<td>Ricardo Motorista</td>
+<td>Transportador</td>
+<td>Chevrolet Onix</td>
+</tr>
+<tr>
+<td><code>cliente1.e4@abistec.com.br</code></td>
+<td>Patricia Silva</td>
+<td>Cliente</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%94%90-usu%C3%A1rios-e-senhas">🔐 <strong>USUÁRIOS E SENHAS</strong></h2>
+<h3 id="%F0%9F%93%9D-padr%C3%A3o-%C3%BAnico-de-senha"><strong>📝 Padrão Único de Senha:</strong></h3>
+<pre class="hljs"><code><div>Regra: {Prefixo do email com primeira letra MAIÚSCULA}*
+
+Exemplos:
+- cliente1.e1@abistec.com.br → Cliente1.e1*
+- gerente1.e2@abistec.com.br → Gerente1.e2*
+- transportador1.e3@abistec.com.br → Transportador1.e3*
+</div></code></pre>
+<h3 id="usu%C3%A1rios-antigos-padr%C3%A3o-diferente"><strong>Usuários Antigos (padrão diferente):</strong></h3>
+<pre class="hljs"><code><div>gerente1_movtudo_e1@abistec.com.br → Gerente1_movtudo_e1*
+transportador1_movtudo@abistec.com.br → Transportador1_movtudo*
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%8B-tabela-completa-de-credenciais"><strong>📋 TABELA COMPLETA DE CREDENCIAIS:</strong></h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Email</th>
+<th>Senha</th>
+<th>Empresa</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>almirdss@gmail.com</code></td>
+<td><em>(senha do Almir)</em></td>
+<td>-</td>
+<td><strong>Admin</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>gerente1_movtudo_e1@abistec.com.br</code></td>
+<td><code>Gerente1_movtudo_e1*</code></td>
+<td>E1</td>
+<td>Gerente</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>transportador1_movtudo@abistec.com.br</code></td>
+<td><code>Transportador1_movtudo*</code></td>
+<td>E1</td>
+<td>Transportador</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>transportador2.e1@abistec.com.br</code></td>
+<td><code>Transportador2.e1*</code></td>
+<td>E1</td>
+<td>Transportador</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>cliente1.e1@abistec.com.br</code></td>
+<td><code>Cliente1.e1*</code></td>
+<td>E1</td>
+<td>Cliente</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>gerente1.e2@abistec.com.br</code></td>
+<td><code>Gerente1.e2*</code></td>
+<td>E2</td>
+<td>Gerente</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>transportador1.e2@abistec.com.br</code></td>
+<td><code>Transportador1.e2*</code></td>
+<td>E2</td>
+<td>Transportador</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>cliente1.e2@abistec.com.br</code></td>
+<td><code>Cliente1.e2*</code></td>
+<td>E2</td>
+<td>Cliente</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>gerente1.e3@abistec.com.br</code></td>
+<td><code>Gerente1.e3*</code></td>
+<td>E3</td>
+<td>Gerente</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>transportador1.e3@abistec.com.br</code></td>
+<td><code>Transportador1.e3*</code></td>
+<td>E3</td>
+<td>Transportador</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>transportador2.e3@abistec.com.br</code></td>
+<td><code>Transportador2.e3*</code></td>
+<td>E3</td>
+<td>Transportador</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>gerente1.e4@abistec.com.br</code></td>
+<td><code>Gerente1.e4*</code></td>
+<td>E4</td>
+<td>Gerente</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>transportador1.e4@abistec.com.br</code></td>
+<td><code>Transportador1.e4*</code></td>
+<td>E4</td>
+<td>Transportador</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>transportador2.e4@abistec.com.br</code></td>
+<td><code>Transportador2.e4*</code></td>
+<td>E4</td>
+<td>Transportador</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>cliente1.e4@abistec.com.br</code></td>
+<td><code>Cliente1.e4*</code></td>
+<td>E4</td>
+<td>Cliente</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%A7%AA-cen%C3%A1rio-1-moto-taxi-express">🧪 <strong>CENÁRIO 1: MOTO TAXI EXPRESS</strong></h2>
+<h3 id="%F0%9F%8E%AC-roteiro-de-teste"><strong>🎬 ROTEIRO DE TESTE:</strong></h3>
+<h4 id="passo-1-cliente-solicita-corrida"><strong>PASSO 1: Cliente Solicita Corrida</strong></h4>
+<ol>
+<li><strong>Abra o navegador</strong> (Chrome/Edge)</li>
+<li><strong>Acesse:</strong> https://movtudo.netlify.app/moto-taxi-express</li>
+<li><strong>Clique em:</strong> &quot;Entrar&quot; ou &quot;Login&quot;</li>
+<li><strong>Faça login:</strong>
+<ul>
+<li>Email: <code>cliente1.e1@abistec.com.br</code></li>
+<li>Senha: <code>Cliente1.e1*</code></li>
+</ul>
+</li>
+<li><strong>Após login</strong>, você deve ver a <strong>página do cliente</strong> da empresa E1</li>
+<li><strong>Clique em:</strong> &quot;Solicitar Corrida&quot; ou &quot;Nova Corrida&quot;</li>
+<li><strong>Preencha:</strong>
+<ul>
+<li><strong>Origem:</strong> Av. Atlântica, 1000 - Copacabana, RJ</li>
+<li><strong>Destino:</strong> Rua Visconde de Pirajá, 500 - Ipanema, RJ</li>
+<li><strong>Tipo:</strong> Passageiro</li>
+<li><strong>Observação:</strong> Corrida de teste (opcional)</li>
+</ul>
+</li>
+<li><strong>Clique em:</strong> &quot;Calcular Preço&quot;</li>
+<li><strong>Sistema deve:</strong>
+<ul>
+<li>✅ Calcular distância via Google Maps</li>
+<li>✅ Mostrar preço estimado</li>
+<li>✅ Mostrar tempo estimado</li>
+</ul>
+</li>
+<li><strong>Clique em:</strong> &quot;Confirmar Pedido&quot;</li>
+<li><strong>Pronto!</strong> Corrida criada e aguardando transportador</li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox0"><label for="checkbox0">Login funcionou</label></li>
+<li><input type="checkbox" id="checkbox1"><label for="checkbox1">Página do cliente carregou</label></li>
+<li><input type="checkbox" id="checkbox2"><label for="checkbox2">Formulário de corrida apareceu</label></li>
+<li><input type="checkbox" id="checkbox3"><label for="checkbox3">Google Maps calculou rota</label></li>
+<li><input type="checkbox" id="checkbox4"><label for="checkbox4">Preço foi calculado</label></li>
+<li><input type="checkbox" id="checkbox5"><label for="checkbox5">Pedido foi criado</label></li>
+</ul>
+<hr>
+<h4 id="passo-2-transportador-aceita-corrida"><strong>PASSO 2: Transportador Aceita Corrida</strong></h4>
+<ol>
+<li><strong>Abra uma NOVA ABA ANÔNIMA</strong> (Ctrl + Shift + N)</li>
+<li><strong>Acesse:</strong> https://movtudo.netlify.app/login</li>
+<li><strong>Faça login como transportador:</strong>
+<ul>
+<li>Email: <code>gerente1.e3@abistec.com.br</code></li>
+<li>Senha: <code>Transportador2.e1*</code></li>
+</ul>
+</li>
+<li><strong>Após login</strong>, você deve ver:
+<ul>
+<li>Lista de corridas <strong>disponíveis</strong> (aguardando)</li>
+<li>Deve aparecer a corrida que Maria (cliente) criou</li>
+</ul>
+</li>
+<li><strong>Veja os detalhes:</strong>
+<ul>
+<li>Nome do cliente: Maria Oliveira</li>
+<li>Origem: Copacabana</li>
+<li>Destino: Ipanema</li>
+<li>Preço: (calculado)</li>
+</ul>
+</li>
+<li><strong>Clique em:</strong> &quot;Aceitar Corrida&quot;</li>
+<li><strong>Sistema deve:</strong>
+<ul>
+<li>✅ Mudar status para &quot;Aceito&quot;</li>
+<li>✅ Vincular você (Pedro) à corrida</li>
+<li>✅ Mostrar botões de atualização de status</li>
+</ul>
+</li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox6"><label for="checkbox6">Transportador vê corridas disponíveis</label></li>
+<li><input type="checkbox" id="checkbox7"><label for="checkbox7">Corrida do cliente apareceu</label></li>
+<li><input type="checkbox" id="checkbox8"><label for="checkbox8">Dados estão corretos</label></li>
+<li><input type="checkbox" id="checkbox9"><label for="checkbox9">Aceitar funcionou</label></li>
+<li><input type="checkbox" id="checkbox10"><label for="checkbox10">Status mudou</label></li>
+</ul>
+<hr>
+<h4 id="passo-3-atualizar-status-da-corrida"><strong>PASSO 3: Atualizar Status da Corrida</strong></h4>
+<ol>
+<li><strong>Na mesma tela</strong> (transportador logado)</li>
+<li><strong>Veja a corrida aceita</strong></li>
+<li><strong>Clique em:</strong> &quot;Indo Buscar&quot; ou &quot;Coletando&quot;</li>
+<li><strong>Status deve mudar</strong> para &quot;Coletando&quot;</li>
+<li><strong>Clique em:</strong> &quot;Em Rota&quot;</li>
+<li><strong>Status deve mudar</strong> para &quot;Em Rota&quot;</li>
+<li><strong>Clique em:</strong> &quot;Entregue&quot; ou &quot;Finalizar&quot;</li>
+<li><strong>Sistema deve:</strong>
+<ul>
+<li>✅ Marcar como entregue</li>
+<li>✅ Registrar data/hora de conclusão</li>
+<li>✅ Pedir avaliação (opcional)</li>
+</ul>
+</li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox11"><label for="checkbox11">Botões de status apareceram</label></li>
+<li><input type="checkbox" id="checkbox12"><label for="checkbox12">Status mudou em tempo real</label></li>
+<li><input type="checkbox" id="checkbox13"><label for="checkbox13">Dados foram salvos</label></li>
+</ul>
+<hr>
+<h4 id="passo-4-cliente-v%C3%AA-hist%C3%B3rico"><strong>PASSO 4: Cliente Vê Histórico</strong></h4>
+<ol>
+<li><strong>Volte para a ABA DO CLIENTE</strong> (Maria)</li>
+<li><strong>Recarregue a página</strong> (F5)</li>
+<li><strong>Clique em:</strong> &quot;Minhas Corridas&quot; ou &quot;Histórico&quot;</li>
+<li><strong>Você deve ver:</strong>
+<ul>
+<li>✅ Corrida finalizada</li>
+<li>✅ Nome do transportador: Pedro Motoqueiro</li>
+<li>✅ Status: Entregue</li>
+<li>✅ Data/hora de conclusão</li>
+</ul>
+</li>
+<li><strong>Clique em:</strong> &quot;Avaliar&quot; (se disponível)</li>
+<li><strong>Dê nota</strong> (1-5 estrelas)</li>
+<li><strong>Escreva comentário</strong> (opcional)</li>
+<li><strong>Envie avaliação</strong></li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox14"><label for="checkbox14">Cliente vê histórico</label></li>
+<li><input type="checkbox" id="checkbox15"><label for="checkbox15">Corrida finalizada aparece</label></li>
+<li><input type="checkbox" id="checkbox16"><label for="checkbox16">Dados do transportador corretos</label></li>
+<li><input type="checkbox" id="checkbox17"><label for="checkbox17">Avaliação funcionou</label></li>
+</ul>
+<hr>
+<h4 id="passo-5-gerente-v%C3%AA-relat%C3%B3rio"><strong>PASSO 5: Gerente Vê Relatório</strong></h4>
+<ol>
+<li><strong>Abra uma NOVA ABA ANÔNIMA</strong></li>
+<li><strong>Acesse:</strong> https://movtudo.netlify.app/login</li>
+<li><strong>Faça login como gerente:</strong>
+<ul>
+<li>Email: <code>gerente1_movtudo_e1@abistec.com.br</code></li>
+<li>Senha: <code>Gerente1_movtudo_e1*</code></li>
+</ul>
+</li>
+<li><strong>Após login</strong>, você deve ver:
+<ul>
+<li>✅ Dashboard da empresa E1</li>
+<li>✅ Estatísticas (corridas hoje, esta semana, etc.)</li>
+<li>✅ Lista de todas as corridas da empresa</li>
+</ul>
+</li>
+<li><strong>Clique em:</strong> &quot;Corridas&quot; ou &quot;Relatórios&quot;</li>
+<li><strong>Você deve ver:</strong>
+<ul>
+<li>✅ Corrida de Maria → Pedro (finalizada)</li>
+<li>✅ Detalhes completos</li>
+<li>✅ Valor pago/a pagar</li>
+</ul>
+</li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox18"><label for="checkbox18">Gerente vê dashboard</label></li>
+<li><input type="checkbox" id="checkbox19"><label for="checkbox19">Estatísticas aparecem</label></li>
+<li><input type="checkbox" id="checkbox20"><label for="checkbox20">Corrida finalizada está registrada</label></li>
+<li><input type="checkbox" id="checkbox21"><label for="checkbox21">Dados estão corretos</label></li>
+</ul>
+<hr>
+<h2 id="%F0%9F%9A%9B-cen%C3%A1rio-2-volta-com-f%C3%A9-transportes">🚛 <strong>CENÁRIO 2: VOLTA COM FÉ TRANSPORTES</strong></h2>
+<h3 id="%F0%9F%8E%AC-roteiro-de-teste"><strong>🎬 ROTEIRO DE TESTE:</strong></h3>
+<h4 id="passo-1-cliente-b2b-solicita-transporte-de-carga"><strong>PASSO 1: Cliente B2B Solicita Transporte de Carga</strong></h4>
+<ol>
+<li><strong>Acesse:</strong> https://movtudo.netlify.app/volta-com-fe</li>
+<li><strong>Faça login:</strong>
+<ul>
+<li>Email: <code>cliente1.e2@abistec.com.br</code></li>
+<li>Senha: <code>Cliente1.e2*</code></li>
+</ul>
+</li>
+<li><strong>Solicite transporte:</strong>
+<ul>
+<li><strong>Origem:</strong> Porto de Itaguaí - RJ</li>
+<li><strong>Destino:</strong> Galpão Centro - RJ</li>
+<li><strong>Tipo:</strong> Carga</li>
+<li><strong>Peso:</strong> 5000 kg (5 toneladas)</li>
+<li><strong>Descrição:</strong> Bebidas Pepsi - 200 caixas</li>
+<li><strong>Observação:</strong> Carga frágil</li>
+</ul>
+</li>
+<li><strong>Sistema calcula:</strong>
+<ul>
+<li>✅ Distância: ~80 km</li>
+<li>✅ Preço: (baseado em km × taxa de carga)</li>
+</ul>
+</li>
+<li><strong>Confirme pedido</strong></li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox22"><label for="checkbox22">Login B2B funcionou</label></li>
+<li><input type="checkbox" id="checkbox23"><label for="checkbox23">Campos específicos de carga (peso, descrição)</label></li>
+<li><input type="checkbox" id="checkbox24"><label for="checkbox24">Cálculo de preço diferente (maior que moto)</label></li>
+<li><input type="checkbox" id="checkbox25"><label for="checkbox25">Pedido criado</label></li>
+</ul>
+<hr>
+<h4 id="passo-2-caminhoneiro-aceita-carga"><strong>PASSO 2: Caminhoneiro Aceita Carga</strong></h4>
+<ol>
+<li><strong>Nova aba anônima</strong></li>
+<li><strong>Login:</strong>
+<ul>
+<li>Email: <code>transportador1.e2@abistec.com.br</code></li>
+<li>Senha: <code>Transportador1.e2*</code></li>
+</ul>
+</li>
+<li><strong>Veja a carga disponível:</strong>
+<ul>
+<li>Cliente: Distribuidora Pepsi</li>
+<li>Peso: 5 toneladas</li>
+<li>Distância: 80 km</li>
+<li>Tipo de veículo necessário: Truck</li>
+</ul>
+</li>
+<li><strong>Aceite a carga</strong></li>
+<li><strong>Atualize status:</strong>
+<ul>
+<li>Indo buscar → Carregando → Em rota → Entregue</li>
+</ul>
+</li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox26"><label for="checkbox26">Transportador vê tipo de carga</label></li>
+<li><input type="checkbox" id="checkbox27"><label for="checkbox27">Informações de peso/tipo aparecem</label></li>
+<li><input type="checkbox" id="checkbox28"><label for="checkbox28">Apenas transportadores com veículo adequado veem (opcional)</label></li>
+<li><input type="checkbox" id="checkbox29"><label for="checkbox29">Fluxo completo funciona</label></li>
+</ul>
+<hr>
+<h4 id="passo-3-gerente-monitora"><strong>PASSO 3: Gerente Monitora</strong></h4>
+<ol>
+<li><strong>Login:</strong>
+<ul>
+<li>Email: <code>gerente1.e2@abistec.com.br</code></li>
+<li>Senha: <code>Gerente1.e2*</code></li>
+</ul>
+</li>
+<li><strong>Veja dashboard:</strong>
+<ul>
+<li>✅ Corrida em andamento</li>
+<li>✅ Quem aceitou: José Caminhoneiro</li>
+<li>✅ Status atual</li>
+</ul>
+</li>
+<li><strong>Acompanhe até finalização</strong></li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox30"><label for="checkbox30">Gerente vê apenas corridas da E2</label></li>
+<li><input type="checkbox" id="checkbox31"><label for="checkbox31">NÃO vê corridas de E1, E3 ou E4</label></li>
+<li><input type="checkbox" id="checkbox32"><label for="checkbox32">Dashboard atualiza em tempo real</label></li>
+</ul>
+<hr>
+<h2 id="%F0%9F%9B%B5-cen%C3%A1rio-3-a%C3%A7a%C3%AD-delivery">🛵 <strong>CENÁRIO 3: AÇAÍ DELIVERY</strong></h2>
+<h3 id="%F0%9F%8E%AC-roteiro-de-teste"><strong>🎬 ROTEIRO DE TESTE:</strong></h3>
+<p>Este é o cenário mais diferente! <strong>NÃO há cliente cadastrado</strong>. O cliente compra na loja física e a atendente que cria o pedido.</p>
+<hr>
+<h4 id="passo-1-cliente-compra-na-loja-mundo-real"><strong>PASSO 1: Cliente Compra na Loja (Mundo Real)</strong></h4>
+<p><strong>Simulação:</strong></p>
+<pre class="hljs"><code><div>Cliente: Sandra vai na loja física
+Sandra: &quot;Oi, quero 1 açaí 500ml para entregar&quot;
+Atendente Juliana: &quot;Ok! Qual seu endereço?&quot;
+Sandra: &quot;Rua das Palmeiras, 200 - Copacabana&quot;
+Juliana: &quot;Telefone para contato?&quot;
+Sandra: &quot;(21) 96666-0003&quot;
+Juliana: &quot;Pronto! Vai chegar em 30 minutos&quot;
+</div></code></pre>
+<p><strong>Juliana agora vai CRIAR o pedido no sistema:</strong></p>
+<hr>
+<h4 id="passo-2-gerente-cria-pedido-de-entrega"><strong>PASSO 2: Gerente Cria Pedido de Entrega</strong></h4>
+<ol>
+<li><strong>Acesse:</strong> https://movtudo.netlify.app/login</li>
+<li><strong>Login:</strong>
+<ul>
+<li>Email: <code>gerente1.e3@abistec.com.br</code></li>
+<li>Senha: <code>Gerente1.e3*</code></li>
+</ul>
+</li>
+<li><strong>No dashboard</strong>, clique em: <strong>&quot;Nova Entrega&quot;</strong> ou <strong>&quot;Criar Pedido&quot;</strong></li>
+<li><strong>Preencha:</strong>
+<ul>
+<li><strong>Nome do Cliente:</strong> Sandra Compradora</li>
+<li><strong>Telefone:</strong> (21) 96666-0003</li>
+<li><strong>Email:</strong> <em>(deixe em branco ou use visitante@email.com)</em></li>
+<li><strong>Origem:</strong> <em>(endereço da loja - deve vir pré-preenchido)</em></li>
+<li><strong>Destino:</strong> Rua das Palmeiras, 200 - Copacabana</li>
+<li><strong>Tipo:</strong> Objeto</li>
+<li><strong>Descrição:</strong> Açaí 500ml</li>
+<li><strong>Valor:</strong> R$ 25,00</li>
+</ul>
+</li>
+<li><strong>Confirme pedido</strong></li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox33"><label for="checkbox33">Gerente pode criar pedido para visitante</label></li>
+<li><input type="checkbox" id="checkbox34"><label for="checkbox34">Campos de &quot;cliente final&quot; disponíveis</label></li>
+<li><input type="checkbox" id="checkbox35"><label for="checkbox35">Origem vem pré-preenchida (endereço da loja)</label></li>
+<li><input type="checkbox" id="checkbox36"><label for="checkbox36">Pedido criado com sucesso</label></li>
+</ul>
+<hr>
+<h4 id="passo-3-entregador-aceita-e-entrega"><strong>PASSO 3: Entregador Aceita e Entrega</strong></h4>
+<ol>
+<li><strong>Nova aba anônima</strong></li>
+<li><strong>Login:</strong>
+<ul>
+<li>Email: <code>transportador1.e3@abistec.com.br</code></li>
+<li>Senha: <code>Transportador1.e3*</code></li>
+</ul>
+</li>
+<li><strong>Veja pedido disponível:</strong>
+<ul>
+<li>Cliente: Sandra Compradora</li>
+<li>Destino: Rua das Palmeiras, 200</li>
+<li>Produto: Açaí 500ml</li>
+<li>Valor: R$ 25,00</li>
+</ul>
+</li>
+<li><strong>Aceite</strong></li>
+<li><strong>Atualize status:</strong>
+<ul>
+<li>Coletando (pegou na loja) → Em rota → Entregue</li>
+</ul>
+</li>
+<li><strong>Marque como entregue</strong></li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox37"><label for="checkbox37">Entregador vê nome do cliente visitante</label></li>
+<li><input type="checkbox" id="checkbox38"><label for="checkbox38">Dados estão corretos</label></li>
+<li><input type="checkbox" id="checkbox39"><label for="checkbox39">Fluxo completo funciona</label></li>
+<li><input type="checkbox" id="checkbox40"><label for="checkbox40">Cliente visitante NÃO precisa de login</label></li>
+</ul>
+<hr>
+<h4 id="passo-4-cliente-visitante-acompanha-futuro"><strong>PASSO 4: Cliente Visitante Acompanha (Futuro)</strong></h4>
+<p><strong>Nota:</strong> Esta funcionalidade ainda será implementada!</p>
+<p>No futuro, Sandra receberá um <strong>link por SMS/WhatsApp</strong> para acompanhar:</p>
+<pre class="hljs"><code><div>Olá Sandra! Seu pedido #123 está a caminho.
+Acompanhe: https://movtudo.netlify.app/rastrear/ABC123
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%9A%95-cen%C3%A1rio-4-taxi-sul">🚕 <strong>CENÁRIO 4: TAXI SUL</strong></h2>
+<h3 id="%F0%9F%8E%AC-roteiro-de-teste"><strong>🎬 ROTEIRO DE TESTE:</strong></h3>
+<h4 id="passo-1-cliente-liga-para-central-simula%C3%A7%C3%A3o"><strong>PASSO 1: Cliente Liga para Central (Simulação)</strong></h4>
+<p><strong>Simulação:</strong></p>
+<pre class="hljs"><code><div>Cliente Antônio liga: (21) 99999-0004
+Despachante Fernando atende: &quot;Taxi Sul, bom dia!&quot;
+Antônio: &quot;Preciso de um taxi agora&quot;
+Fernando: &quot;Endereço de origem?&quot;
+Antônio: &quot;Rua Barata Ribeiro, 300 - Copacabana&quot;
+Fernando: &quot;Destino?&quot;
+Antônio: &quot;Aeroporto Santos Dumont&quot;
+Fernando: &quot;Ok! Taxi a caminho em 5 minutos. Seu nome?&quot;
+Antônio: &quot;Antônio Costa&quot;
+Fernando: &quot;Telefone?&quot;
+Antônio: &quot;(21) 96666-0005&quot;
+</div></code></pre>
+<p><strong>Fernando agora cria a corrida no sistema:</strong></p>
+<hr>
+<h4 id="passo-2-despachante-cria-corrida"><strong>PASSO 2: Despachante Cria Corrida</strong></h4>
+<ol>
+<li><strong>Login:</strong>
+<ul>
+<li>Email: <code>gerente1.e4@abistec.com.br</code></li>
+<li>Senha: <code>Gerente1.e4*</code></li>
+</ul>
+</li>
+<li><strong>Crie nova corrida:</strong>
+<ul>
+<li><strong>Nome:</strong> Antônio Costa</li>
+<li><strong>Telefone:</strong> (21) 96666-0005</li>
+<li><strong>Origem:</strong> Rua Barata Ribeiro, 300 - Copacabana</li>
+<li><strong>Destino:</strong> Aeroporto Santos Dumont</li>
+<li><strong>Tipo:</strong> Passageiro</li>
+</ul>
+</li>
+<li><strong>Confirme</strong></li>
+<li><strong>Sistema:</strong>
+<ul>
+<li>✅ Calcula distância (~8 km)</li>
+<li>✅ Calcula preço</li>
+<li>✅ Envia para taxistas disponíveis</li>
+</ul>
+</li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox41"><label for="checkbox41">Despachante pode criar corrida para visitante</label></li>
+<li><input type="checkbox" id="checkbox42"><label for="checkbox42">Sistema funciona como &quot;central de taxi&quot;</label></li>
+<li><input type="checkbox" id="checkbox43"><label for="checkbox43">Corrida fica disponível para taxistas</label></li>
+</ul>
+<hr>
+<h4 id="passo-3-taxista-aceita"><strong>PASSO 3: Taxista Aceita</strong></h4>
+<ol>
+<li><strong>Nova aba anônima</strong></li>
+<li><strong>Login:</strong>
+<ul>
+<li>Email: <code>transportador1.e4@abistec.com.br</code></li>
+<li>Senha: <code>Transportador1.e4*</code></li>
+</ul>
+</li>
+<li><strong>Veja corrida:</strong>
+<ul>
+<li>Cliente: Antônio Costa</li>
+<li>Origem: Copacabana</li>
+<li>Destino: Aeroporto</li>
+<li>Preço: (calculado)</li>
+</ul>
+</li>
+<li><strong>Aceite</strong></li>
+<li><strong>Atualize status até entrega</strong></li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox44"><label for="checkbox44">Taxista vê corrida criada pelo despachante</label></li>
+<li><input type="checkbox" id="checkbox45"><label for="checkbox45">Pode aceitar normalmente</label></li>
+<li><input type="checkbox" id="checkbox46"><label for="checkbox46">Fluxo funciona igual aos outros cenários</label></li>
+</ul>
+<hr>
+<h4 id="passo-4-cliente-cadastrado-tamb%C3%A9m-pode-usar"><strong>PASSO 4: Cliente Cadastrado também Pode Usar</strong></h4>
+<p><strong>Agora teste com cliente CADASTRADO:</strong></p>
+<ol>
+<li><strong>Nova aba</strong></li>
+<li><strong>Login:</strong>
+<ul>
+<li>Email: <code>cliente1.e4@abistec.com.br</code></li>
+<li>Senha: <code>Cliente1.e4*</code></li>
+</ul>
+</li>
+<li><strong>Patricia (cliente) cria própria corrida:</strong>
+<ul>
+<li>Origem: Sua localização</li>
+<li>Destino: Shopping da Gávea</li>
+</ul>
+</li>
+<li><strong>Confirme</strong></li>
+<li><strong>Outro taxista aceita:</strong>
+<ul>
+<li>Login: <code>transportador2.e4@abistec.com.br</code></li>
+<li>Senha: <code>Transportador2.e4*</code></li>
+</ul>
+</li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox47"><label for="checkbox47">Cliente cadastrado pode solicitar diretamente</label></li>
+<li><input type="checkbox" id="checkbox48"><label for="checkbox48">NÃO precisa passar pelo despachante</label></li>
+<li><input type="checkbox" id="checkbox49"><label for="checkbox49">Taxistas veem ambas as corridas (via despachante E via cliente direto)</label></li>
+</ul>
+<hr>
+<h2 id="%F0%9F%94%8D-teste-de-isolamento">🔍 <strong>TESTE DE ISOLAMENTO</strong></h2>
+<h3 id="regra-importante"><strong>REGRA IMPORTANTE:</strong></h3>
+<p><strong>Cada empresa SÓ vê SUAS corridas!</strong></p>
+<h4 id="teste"><strong>Teste:</strong></h4>
+<ol>
+<li>
+<p><strong>Login como Gerente E1:</strong></p>
+<ul>
+<li>Email: <code>gerente1_movtudo_e1@abistec.com.br</code></li>
+<li>Deve ver <strong>APENAS</strong> corridas da E1</li>
+</ul>
+</li>
+<li>
+<p><strong>Login como Gerente E2:</strong></p>
+<ul>
+<li>Email: <code>gerente1.e2@abistec.com.br</code></li>
+<li>Deve ver <strong>APENAS</strong> corridas da E2</li>
+</ul>
+</li>
+<li>
+<p><strong>Login como Transportador E3:</strong></p>
+<ul>
+<li>Email: <code>transportador1.e3@abistec.com.br</code></li>
+<li>Deve ver <strong>APENAS</strong> corridas da E3</li>
+</ul>
+</li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox50"><label for="checkbox50">Isolamento total entre empresas</label></li>
+<li><input type="checkbox" id="checkbox51"><label for="checkbox51">Usuário NÃO vê dados de outras empresas</label></li>
+<li><input type="checkbox" id="checkbox52"><label for="checkbox52">Apenas Admin vê tudo</label></li>
+</ul>
+<hr>
+<h2 id="%F0%9F%91%91-teste-do-painel-admin">👑 <strong>TESTE DO PAINEL ADMIN</strong></h2>
+<h3 id="login-como-admin-almir"><strong>Login como Admin (Almir):</strong></h3>
+<ol>
+<li><strong>Acesse:</strong> https://movtudo.netlify.app/admin</li>
+<li><strong>Login:</strong>
+<ul>
+<li>Email: <code>almirdss@gmail.com</code></li>
+<li>Senha: <em>(sua senha)</em></li>
+</ul>
+</li>
+<li><strong>No painel admin, verifique:</strong></li>
+</ol>
+<h4 id="dashboard"><strong>Dashboard:</strong></h4>
+<ul>
+<li>✅ Total de empresas: 4</li>
+<li>✅ Total de usuários: 17</li>
+<li>✅ Total de corridas: (soma de todas)</li>
+<li>✅ Gráficos e estatísticas</li>
+</ul>
+<h4 id="empresas"><strong>Empresas:</strong></h4>
+<ul>
+<li>✅ Lista as 4 empresas</li>
+<li>✅ Pode editar qualquer uma</li>
+<li>✅ Pode ativar/desativar</li>
+<li>✅ Vê logo de cada empresa</li>
+</ul>
+<h4 id="usu%C3%A1rios"><strong>Usuários:</strong></h4>
+<ul>
+<li>✅ Lista todos os 17 usuários</li>
+<li>✅ Mostra qual empresa cada um pertence</li>
+<li>✅ Mostra função (gerente, transportador, cliente)</li>
+<li>✅ Pode editar/remover</li>
+</ul>
+<h4 id="mensagens"><strong>Mensagens:</strong></h4>
+<ul>
+<li>✅ Vê mensagens do formulário de contato</li>
+<li>✅ Pode marcar como lida</li>
+<li>✅ Pode responder por email/WhatsApp</li>
+</ul>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox53"><label for="checkbox53">Admin tem acesso global</label></li>
+<li><input type="checkbox" id="checkbox54"><label for="checkbox54">Vê dados de todas as empresas</label></li>
+<li><input type="checkbox" id="checkbox55"><label for="checkbox55">Pode gerenciar tudo</label></li>
+<li><input type="checkbox" id="checkbox56"><label for="checkbox56">Estatísticas corretas</label></li>
+</ul>
+<hr>
+<h2 id="%F0%9F%8E%A8-teste-de-personaliza%C3%A7%C3%A3o">🎨 <strong>TESTE DE PERSONALIZAÇÃO</strong></h2>
+<h3 id="cada-empresa-tem-visual-pr%C3%B3prio"><strong>Cada Empresa Tem Visual Próprio:</strong></h3>
+<h4 id="teste"><strong>Teste:</strong></h4>
+<ol>
+<li>
+<p><strong>Acesse E1:</strong> https://movtudo.netlify.app/moto-taxi-express</p>
+<ul>
+<li>Cores: Laranja (#FF6B35) e Verde (#2ECC71)</li>
+<li>Logo da empresa (se tiver)</li>
+</ul>
+</li>
+<li>
+<p><strong>Acesse E2:</strong> https://movtudo.netlify.app/volta-com-fe</p>
+<ul>
+<li>Cores: Azul (#1E40AF) e Azul Claro (#3B82F6)</li>
+</ul>
+</li>
+<li>
+<p><strong>Acesse E3:</strong> https://movtudo.netlify.app/acai-delivery</p>
+<ul>
+<li>Cores: Roxo (#8B5CF6) e Roxo Claro (#C084FC)</li>
+</ul>
+</li>
+<li>
+<p><strong>Acesse E4:</strong> https://movtudo.netlify.app/taxi-sul</p>
+<ul>
+<li>Cores: Vermelho (#DC2626) e Vermelho Claro (#EF4444)</li>
+</ul>
+</li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox57"><label for="checkbox57">Cada empresa tem cores diferentes</label></li>
+<li><input type="checkbox" id="checkbox58"><label for="checkbox58">Branding personalizado</label></li>
+<li><input type="checkbox" id="checkbox59"><label for="checkbox59">Logo aparece (se foi feito upload)</label></li>
+</ul>
+<hr>
+<h2 id="%F0%9F%A7%AA-teste-de-transportador-multiempresa">🧪 <strong>TESTE DE TRANSPORTADOR MULTIEMPRESA</strong></h2>
+<h3 id="regra-um-transportador-pode-trabalhar-para-v%C3%A1rias-empresas"><strong>REGRA: Um transportador PODE trabalhar para várias empresas!</strong></h3>
+<h4 id="exemplo-de-teste"><strong>Exemplo de Teste:</strong></h4>
+<p><strong>João Motoboy trabalha para E1 E E3:</strong></p>
+<ol>
+<li>
+<p><strong>No painel admin</strong>, vincule João à E3 também:</p>
+<ul>
+<li>Acesse: <code>/admin/usuarios</code></li>
+<li>Encontre: João (transportador1_movtudo)</li>
+<li>Adicione vínculo à empresa E3</li>
+</ul>
+</li>
+<li>
+<p><strong>Teste:</strong></p>
+<ul>
+<li>Login como João: <code>transportador1_movtudo@abistec.com.br</code></li>
+<li>João deve ver corridas de <strong>E1 E E3</strong>!</li>
+</ul>
+</li>
+</ol>
+<p><strong>✅ O que validar:</strong></p>
+<ul>
+<li><input type="checkbox" id="checkbox60"><label for="checkbox60">Transportador vê corridas de múltiplas empresas</label></li>
+<li><input type="checkbox" id="checkbox61"><label for="checkbox61">Consegue aceitar de qualquer uma</label></li>
+<li><input type="checkbox" id="checkbox62"><label for="checkbox62">Sistema identifica qual empresa em cada corrida</label></li>
+</ul>
+<hr>
+<h2 id="%E2%9C%85-checklist-de-testes">✅ <strong>CHECKLIST DE TESTES</strong></h2>
+<h3 id="funcionalidades-gerais"><strong>Funcionalidades Gerais:</strong></h3>
+<ul>
+<li><input type="checkbox" id="checkbox63"><label for="checkbox63">Login/Logout funcionando</label></li>
+<li><input type="checkbox" id="checkbox64"><label for="checkbox64">Cadastro de novos usuários</label></li>
+<li><input type="checkbox" id="checkbox65"><label for="checkbox65">Recuperação de senha (esqueci-senha)</label></li>
+<li><input type="checkbox" id="checkbox66"><label for="checkbox66">Upload de foto de perfil</label></li>
+<li><input type="checkbox" id="checkbox67"><label for="checkbox67">Edição de dados pessoais</label></li>
+</ul>
+<h3 id="empresas"><strong>Empresas:</strong></h3>
+<ul>
+<li><input type="checkbox" id="checkbox68"><label for="checkbox68">Criar nova empresa (admin)</label></li>
+<li><input type="checkbox" id="checkbox69"><label for="checkbox69">Editar empresa existente</label></li>
+<li><input type="checkbox" id="checkbox70"><label for="checkbox70">Upload de logo da empresa</label></li>
+<li><input type="checkbox" id="checkbox71"><label for="checkbox71">Ativar/desativar empresa</label></li>
+<li><input type="checkbox" id="checkbox72"><label for="checkbox72">Cada empresa tem visual próprio</label></li>
+</ul>
+<h3 id="corridas---e1-moto-taxi"><strong>Corridas - E1 (Moto Taxi):</strong></h3>
+<ul>
+<li><input type="checkbox" id="checkbox73"><label for="checkbox73">Cliente solicita corrida</label></li>
+<li><input type="checkbox" id="checkbox74"><label for="checkbox74">Google Maps calcula rota</label></li>
+<li><input type="checkbox" id="checkbox75"><label for="checkbox75">Preço é calculado automaticamente</label></li>
+<li><input type="checkbox" id="checkbox76"><label for="checkbox76">Transportador vê corrida disponível</label></li>
+<li><input type="checkbox" id="checkbox77"><label for="checkbox77">Transportador aceita corrida</label></li>
+<li><input type="checkbox" id="checkbox78"><label for="checkbox78">Status atualiza em tempo real</label></li>
+<li><input type="checkbox" id="checkbox79"><label for="checkbox79">Cliente vê histórico</label></li>
+<li><input type="checkbox" id="checkbox80"><label for="checkbox80">Cliente avalia transportador</label></li>
+</ul>
+<h3 id="corridas---e2-transportadora"><strong>Corridas - E2 (Transportadora):</strong></h3>
+<ul>
+<li><input type="checkbox" id="checkbox81"><label for="checkbox81">Cliente B2B solicita carga</label></li>
+<li><input type="checkbox" id="checkbox82"><label for="checkbox82">Campos específicos de carga (peso, descrição)</label></li>
+<li><input type="checkbox" id="checkbox83"><label for="checkbox83">Caminhoneiro aceita</label></li>
+<li><input type="checkbox" id="checkbox84"><label for="checkbox84">Valores compatíveis com carga (maior)</label></li>
+</ul>
+<h3 id="corridas---e3-delivery"><strong>Corridas - E3 (Delivery):</strong></h3>
+<ul>
+<li><input type="checkbox" id="checkbox85"><label for="checkbox85">Gerente cria pedido para visitante</label></li>
+<li><input type="checkbox" id="checkbox86"><label for="checkbox86">Dados do cliente final salvos</label></li>
+<li><input type="checkbox" id="checkbox87"><label for="checkbox87">Entregador vê e aceita</label></li>
+<li><input type="checkbox" id="checkbox88"><label for="checkbox88">Entrega concluída</label></li>
+</ul>
+<h3 id="corridas---e4-taxi"><strong>Corridas - E4 (Taxi):</strong></h3>
+<ul>
+<li><input type="checkbox" id="checkbox89"><label for="checkbox89">Despachante cria para visitante (via telefone)</label></li>
+<li><input type="checkbox" id="checkbox90"><label for="checkbox90">Taxista aceita</label></li>
+<li><input type="checkbox" id="checkbox91"><label for="checkbox91">Cliente cadastrado também pode solicitar direto</label></li>
+</ul>
+<h3 id="isolamento"><strong>Isolamento:</strong></h3>
+<ul>
+<li><input type="checkbox" id="checkbox92"><label for="checkbox92">Gerente E1 NÃO vê dados de E2</label></li>
+<li><input type="checkbox" id="checkbox93"><label for="checkbox93">Transportador E3 NÃO vê corridas de E4</label></li>
+<li><input type="checkbox" id="checkbox94"><label for="checkbox94">Cliente E2 NÃO acessa painel de E1</label></li>
+<li><input type="checkbox" id="checkbox95"><label for="checkbox95">Admin vê TUDO</label></li>
+</ul>
+<h3 id="relat%C3%B3rios"><strong>Relatórios:</strong></h3>
+<ul>
+<li><input type="checkbox" id="checkbox96"><label for="checkbox96">Dashboard por empresa</label></li>
+<li><input type="checkbox" id="checkbox97"><label for="checkbox97">Estatísticas (hoje, semana, mês)</label></li>
+<li><input type="checkbox" id="checkbox98"><label for="checkbox98">Histórico de corridas</label></li>
+<li><input type="checkbox" id="checkbox99"><label for="checkbox99">Faturamento (se implementado)</label></li>
+</ul>
+<h3 id="responsividade"><strong>Responsividade:</strong></h3>
+<ul>
+<li><input type="checkbox" id="checkbox100"><label for="checkbox100">Funciona no celular</label></li>
+<li><input type="checkbox" id="checkbox101"><label for="checkbox101">Sidebar mobile fecha automaticamente</label></li>
+<li><input type="checkbox" id="checkbox102"><label for="checkbox102">Botões acessíveis em tela pequena</label></li>
+</ul>
+<h3 id="p%C3%A1ginas-institucionais"><strong>Páginas Institucionais:</strong></h3>
+<ul>
+<li><input type="checkbox" id="checkbox103"><label for="checkbox103">Página inicial (</label><code>/</code>)</li>
+<li><input type="checkbox" id="checkbox104"><label for="checkbox104">Contato (</label><code>/contato</code>)</li>
+<li><input type="checkbox" id="checkbox105"><label for="checkbox105">Ajuda (</label><code>/ajuda</code>)</li>
+<li><input type="checkbox" id="checkbox106"><label for="checkbox106">Documentação (</label><code>/docs</code>)</li>
+<li><input type="checkbox" id="checkbox107"><label for="checkbox107">Formulário de contato funciona</label></li>
+</ul>
+<hr>
+<h2 id="%E2%9A%A0%EF%B8%8F-problemas-comuns">⚠️ <strong>PROBLEMAS COMUNS</strong></h2>
+<h3 id="problema-1-%22n%C3%A3o-consigo-fazer-login%22"><strong>Problema 1: &quot;Não consigo fazer login&quot;</strong></h3>
+<p><strong>Solução:</strong></p>
+<ul>
+<li>✅ Verifique o email (copie/cole para evitar erro de digitação)</li>
+<li>✅ Verifique a senha: <code>{Prefixo}*</code> com primeira letra <strong>MAIÚSCULA</strong></li>
+<li>✅ Exemplo: <code>Cliente1.e1*</code> (C maiúsculo)</li>
+<li>✅ Se continuar: limpe cache (Ctrl + Shift + Del)</li>
+</ul>
+<hr>
+<h3 id="problema-2-%22p%C3%A1gina-em-branco-ap%C3%B3s-login%22"><strong>Problema 2: &quot;Página em branco após login&quot;</strong></h3>
+<p><strong>Solução:</strong></p>
+<ul>
+<li>✅ Limpe cache e cookies</li>
+<li>✅ Recarregue a página (F5)</li>
+<li>✅ Tente em aba anônima</li>
+<li>✅ Verifique se o usuário está vinculado a alguma empresa</li>
+</ul>
+<hr>
+<h3 id="problema-3-%22n%C3%A3o-vejo-corridas-dispon%C3%ADveis%22"><strong>Problema 3: &quot;Não vejo corridas disponíveis&quot;</strong></h3>
+<p><strong>Solução:</strong></p>
+<ul>
+<li>✅ Verifique se está logado como <strong>transportador</strong></li>
+<li>✅ Verifique se há corridas <strong>aguardando</strong> (não aceitas)</li>
+<li>✅ Verifique se está vendo a empresa correta</li>
+<li>✅ Crie uma corrida de teste primeiro (como cliente)</li>
+</ul>
+<hr>
+<h3 id="problema-4-%22n%C3%A3o-consigo-criar-corrida%22"><strong>Problema 4: &quot;Não consigo criar corrida&quot;</strong></h3>
+<p><strong>Solução:</strong></p>
+<ul>
+<li>✅ Verifique se está logado como <strong>cliente</strong> ou <strong>gerente</strong></li>
+<li>✅ Transportador NÃO cria corrida, apenas aceita</li>
+<li>✅ Preencha TODOS os campos obrigatórios</li>
+<li>✅ Verifique conexão com Google Maps (API Key)</li>
+</ul>
+<hr>
+<h3 id="problema-5-%22erro-ao-calcular-pre%C3%A7o%22"><strong>Problema 5: &quot;Erro ao calcular preço&quot;</strong></h3>
+<p><strong>Solução:</strong></p>
+<ul>
+<li>✅ Verifique se Google Maps API Key está configurada</li>
+<li>✅ Verifique se origem e destino são válidos</li>
+<li>✅ Digite endereços completos com cidade/estado</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%93%9D-anota%C3%A7%C3%B5es-para-testes">📝 <strong>ANOTAÇÕES PARA TESTES</strong></h2>
+<p>Use este espaço para anotar bugs/melhorias encontradas:</p>
+<h3 id="bugs-encontrados"><strong>Bugs Encontrados:</strong></h3>
+<pre class="hljs"><code><div>1. _______________________________________
+   _______________________________________
+   
+2. _______________________________________
+   _______________________________________
+
+3. _______________________________________
+   _______________________________________
+</div></code></pre>
+<h3 id="melhorias-sugeridas"><strong>Melhorias Sugeridas:</strong></h3>
+<pre class="hljs"><code><div>1. _______________________________________
+   _______________________________________
+   
+2. _______________________________________
+   _______________________________________
+
+3. _______________________________________
+   _______________________________________
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%8E%AF-pr%C3%B3ximos-passos-ap%C3%B3s-testes">🎯 <strong>PRÓXIMOS PASSOS APÓS TESTES</strong></h2>
+<p>Após validar tudo, o sistema pode:</p>
+<ol>
+<li>✅ <strong>Receber domínio próprio:</strong> <code>movtudo.com.br</code></li>
+<li>✅ <strong>Adicionar Google Maps API Key real</strong> (está como placeholder)</li>
+<li>✅ <strong>Implementar notificações Telegram</strong></li>
+<li>✅ <strong>Adicionar sistema de pagamento</strong></li>
+<li>✅ <strong>Adicionar relatórios financeiros</strong></li>
+<li>✅ <strong>Implementar rastreamento em tempo real</strong></li>
+</ol>
+<hr>
+<h2 id="%F0%9F%93%9E-contato">📞 <strong>CONTATO</strong></h2>
+<p><strong>Dúvidas durante os testes?</strong></p>
+<ul>
+<li>📧 Email: comercial@abistec.com.br</li>
+<li>💬 WhatsApp: (21) 3272-7548</li>
+<li>👨‍💻 Desenvolvedor: Almir da Silva Salles</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%8E%89-boa-sorte-nos-testes">🎉 <strong>BOA SORTE NOS TESTES!</strong></h2>
+<p>Este sistema foi desenvolvido com:</p>
+<ul>
+<li>✅ <strong>Next.js 14</strong> (React)</li>
+<li>✅ <strong>Supabase</strong> (Banco de dados + Auth)</li>
+<li>✅ <strong>Netlify</strong> (Hospedagem)</li>
+<li>✅ <strong>Google Maps API</strong> (Rotas e preços)</li>
+<li>✅ <strong>Row Level Security</strong> (Isolamento de dados)</li>
+</ul>
+<p><strong>Sistema 100% funcional e pronto para demonstração!</strong> 🚀</p>
+<hr>
+<p><strong>Última atualização:</strong> 13 de outubro de 2025<br>
+<strong>Versão:</strong> 1.0<br>
+<strong>Preparado por:</strong> Almir da Silva Salles (Abistec Serviços Tecnológicos)</p>
+
+</body>
+</html>

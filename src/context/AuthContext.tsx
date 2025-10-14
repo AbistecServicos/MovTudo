@@ -54,24 +54,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const loadUserData = async (supabaseUser: SupabaseUser) => {
     try {
       console.log('🔍 Buscando dados do usuário:', supabaseUser.id)
+      console.log('📧 Email do usuário:', supabaseUser.email)
       
       // Buscar dados do usuário
+      console.log('🔄 Executando query na tabela usuarios...')
       const { data: userData, error: userError } = await supabase
         .from('usuarios')
         .select('*')
         .eq('uid', supabaseUser.id)
         .single()
 
+      console.log('📊 Resultado da query:', { userData, userError })
+
       if (userError) {
         console.error('❌ Erro ao buscar usuário:', userError)
-        toast.error('Erro ao carregar dados do usuário')
+        console.error('❌ Detalhes do erro:', {
+          code: userError.code,
+          message: userError.message,
+          details: userError.details,
+          hint: userError.hint
+        })
+        toast.error(`Erro ao carregar dados do usuário: ${userError.message}`)
         setLoading(false)
         return
       }
 
       if (!userData) {
-        console.error('❌ Usuário não encontrado')
-        toast.error('Usuário não encontrado')
+        console.error('❌ Usuário não encontrado na tabela usuarios')
+        console.error('❌ UID procurado:', supabaseUser.id)
+        toast.error('Usuário não encontrado na base de dados')
         setLoading(false)
         return
       }
@@ -132,8 +143,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Função para redirecionar usuário após login (APENAS na página de login)
   const redirectAfterLogin = () => {
-    // Só redireciona se estiver na página de login
-    if (pathname !== '/login') return
+    // Só redireciona se estiver em uma página de login
+    if (!pathname.includes('/login')) return
     
     // Não redireciona se já está carregando ou se não tem usuário
     if (loading || !user) return
@@ -148,19 +159,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // 2. TEM VÍNCULO COM EMPRESA?
     if (empresaAssociada && empresa) {
       
-      // 2a. GERENTE → /{slug}
+      // 2a. GERENTE → /gerente
       if (empresaAssociada.funcao === 'gerente') {
-        console.log(`🔀 Redirecionando gerente para /${empresa.slug}`)
-        router.push(`/${empresa.slug}`)
+        console.log('🔀 Redirecionando gerente para /gerente')
+        router.push('/gerente')
         return
       }
       
-      // 2b. TRANSPORTADOR → /transportador
-      if (empresaAssociada.funcao === 'transportador') {
-        console.log('🔀 Redirecionando transportador para /transportador')
-        router.push('/transportador')
-        return
-      }
+           // 2b. TRANSPORTADOR → /transportador ou /transportador-transportadora
+           if (empresaAssociada.funcao === 'transportador') {
+             // Se for transportador de transportadora, vai para página específica
+             if (empresa && empresa.tipo_empresa === 'transportadora') {
+               console.log('🔀 Redirecionando transportador de transportadora para /transportador-transportadora')
+               router.push('/transportador-transportadora')
+               return
+             } else {
+               console.log('🔀 Redirecionando transportador para /transportador')
+               router.push('/transportador')
+               return
+             }
+           }
     }
     
     // 3. CLIENTE → Raiz
@@ -168,9 +186,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push('/')
   }
 
-  // Executar redirecionamento apenas quando pathname for /login
+  // Executar redirecionamento apenas quando pathname for uma página de login
   useEffect(() => {
-    if (pathname === '/login') {
+    if (pathname.includes('/login')) {
       redirectAfterLogin()
     }
   }, [user, empresaAssociada, empresa, loading, pathname])

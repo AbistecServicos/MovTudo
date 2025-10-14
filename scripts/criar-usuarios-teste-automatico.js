@@ -90,7 +90,7 @@ const empresas = [
 const usuarios = [
   // ========== EMPRESA E1 - Completar ==========
   {
-    email: 'transportador2.e1@abistec.com.br',
+    email: 'gerente1.e3@abistec.com.br',
     password: 'Transportador2.e1*',
     nome_completo: 'Pedro Motoqueiro',
     nome_usuario: 'transportador2.e1',

@@ -14,7 +14,8 @@ import {
   Menu,
   X,
   Mail,
-  BookOpen
+  BookOpen,
+  Truck
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -66,6 +67,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { name: 'Usuários', href: '/admin/usuarios', icon: Users },
     { name: 'Mensagens', href: '/admin/mensagens', icon: Mail },
     { name: 'Relatórios', href: '/admin/relatorios', icon: BarChart3 },
+    { name: 'Transportadora E2', href: '/transportadora', icon: Truck },
+    { name: 'Guia de Testes', href: '/admin/guia-testes', icon: BookOpen },
     { name: 'Documentação', href: '/docs', icon: BookOpen },
     { name: 'Configurações', href: '/admin/configuracoes', icon: Settings },
   ]

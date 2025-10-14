@@ -14,7 +14,9 @@ import {
   Settings,
   Bell,
   MapPin,
-  Phone
+  Phone,
+  BookOpen,
+  ExternalLink
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -331,6 +333,22 @@ export default function GerentePage() {
             </div>
             <p className="text-gray-600 text-sm">
               Visualize e edite suas informações pessoais
+            </p>
+          </button>
+
+          {/* Guia de Testes */}
+          <button
+            onClick={() => router.push('/gerente/guia-testes')}
+            className="card p-6 hover:shadow-lg transition-shadow text-left"
+          >
+            <div className="flex items-center mb-4">
+              <div className="p-3 bg-indigo-100 rounded-lg">
+                <BookOpen className="h-6 w-6 text-indigo-600" />
+              </div>
+              <h3 className="ml-3 text-lg font-semibold text-gray-900">Guia de Testes</h3>
+            </div>
+            <p className="text-gray-600 text-sm">
+              Manual completo para testar todas as funcionalidades do sistema
             </p>
           </button>
         </div>

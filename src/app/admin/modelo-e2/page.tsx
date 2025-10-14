@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, FileText, CheckCircle, Clock, Truck, Package, MapPin, DollarSign, Users, BarChart3, Settings, Copy, ExternalLink } from 'lucide-react'
+import { ArrowLeft, FileText, CheckCircle, Clock, Truck, Package, MapPin, DollarSign, Users, BarChart3, Settings, Copy, ExternalLink, Building2 } from 'lucide-react'
 import { useAuth, useIsAdmin } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'

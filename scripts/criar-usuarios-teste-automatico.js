@@ -252,10 +252,11 @@ async function criarUsuario(userData) {
     console.log(`\n👤 Criando usuário: ${userData.nome_completo} (${userData.email})...`)
     
     // 1. Criar usuário no Supabase Auth
+    // email_confirm: true → Email já confirmado (não precisa verificação)
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email: userData.email,
       password: userData.password,
-      email_confirm: true,
+      email_confirm: true, // ✅ Email já confirmado automaticamente!
       user_metadata: {
         nome_completo: userData.nome_completo,
         nome_usuario: userData.nome_usuario

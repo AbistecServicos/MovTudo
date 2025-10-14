@@ -1,0 +1,7 @@
+NEXT_PUBLIC_SUPABASE_URL=https://buxpuusxglavepfrivwg.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_7A8AWXyuJiBft9xvSZ9U4g_ZAnh3bW1
+SUPABASE_SERVICE_ROLE_KEY=sb_secret_vBMTUGVy_CUEmAJ6EiFY2g_kY7jLJ5k
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_APP_NAME=MovTudo
+NEXT_PUBLIC_STORAGE_BUCKET=corridas-fotos
+NEXT_PUBLIC_STORAGE_URL=https://buxpuusxglavepfrivwg.supabase.co/storage/v1/object/public

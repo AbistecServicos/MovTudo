@@ -16,7 +16,8 @@ import {
   Eye,
   Edit,
   Filter,
-  FileText
+  FileText,
+  ArrowLeft
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -236,6 +237,13 @@ export default function TransportadoraPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <Link 
+                href="/admin"
+                className="btn btn-secondary flex items-center"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Voltar ao Admin
+              </Link>
               <button className="btn btn-primary">
                 <Plus className="h-4 w-4 mr-2" />
                 Nova Solicitação

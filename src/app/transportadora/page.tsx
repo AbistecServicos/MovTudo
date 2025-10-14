@@ -45,12 +45,27 @@ interface SolicitacaoFrete {
   data_solicitacao: string
 }
 
+interface TransportadorDisponivel {
+  id: string
+  nome: string
+  telefone: string
+  localizacao_atual: string
+  destino: string
+  horario_disponivel: string
+  capacidade_maxima: string
+  tipos_carga: string[]
+  avaliacao: number
+  distancia_km: number
+  tempo_estimado: string
+}
+
 export default function TransportadoraPage() {
   const router = useRouter()
   const { user, empresaAssociada } = useAuth()
   const [loading, setLoading] = useState(true)
   const [caminhoneiros, setCaminhoneiros] = useState<Caminhoneiro[]>([])
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoFrete[]>([])
+  const [transportadoresDisponiveis, setTransportadoresDisponiveis] = useState<TransportadorDisponivel[]>([])
   const [stats, setStats] = useState({
     total_caminhoneiros: 0,
     caminhoneiros_online: 0,
@@ -79,6 +94,48 @@ export default function TransportadoraPage() {
       setLoading(true)
       
       // Simular dados para demonstração
+      const transportadoresDisponiveisData: TransportadorDisponivel[] = [
+        {
+          id: '1',
+          nome: 'Carlos Freitas',
+          telefone: '(21) 99999-0101',
+          localizacao_atual: 'São Paulo - SP',
+          destino: 'Rio de Janeiro - RJ',
+          horario_disponivel: 'Até 18h',
+          capacidade_maxima: '15.000kg',
+          tipos_carga: ['bebidas', 'alimentos'],
+          avaliacao: 4.8,
+          distancia_km: 45,
+          tempo_estimado: '30min'
+        },
+        {
+          id: '2',
+          nome: 'Ana Silva',
+          telefone: '(21) 99999-0102',
+          localizacao_atual: 'Duque de Caxias - RJ',
+          destino: 'Belo Horizonte - MG',
+          horario_disponivel: 'Manhã inteira',
+          capacidade_maxima: '25.000kg',
+          tipos_carga: ['bebidas', 'construção'],
+          avaliacao: 4.9,
+          distancia_km: 120,
+          tempo_estimado: '1h30min'
+        },
+        {
+          id: '3',
+          nome: 'Roberto Lima',
+          telefone: '(21) 99999-0103',
+          localizacao_atual: 'Niterói - RJ',
+          destino: 'Vitória - ES',
+          horario_disponivel: 'Até 16h',
+          capacidade_maxima: '10.000kg',
+          tipos_carga: ['alimentos'],
+          avaliacao: 4.7,
+          distancia_km: 320,
+          tempo_estimado: '4h'
+        }
+      ]
+
       const caminhoneirosData: Caminhoneiro[] = [
         {
           id: '1',
@@ -139,6 +196,7 @@ export default function TransportadoraPage() {
 
       setCaminhoneiros(caminhoneirosData)
       setSolicitacoes(solicitacoesData)
+      setTransportadoresDisponiveis(transportadoresDisponiveisData)
       setStats({
         total_caminhoneiros: caminhoneirosData.length,
         caminhoneiros_online: caminhoneirosData.filter(c => c.status === 'online').length,
@@ -366,6 +424,68 @@ export default function TransportadoraPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* Transportadores Disponíveis */}
+        <div className="card p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
+              Transportadores Disponíveis
+            </h3>
+            <p className="text-sm text-gray-500">Caminhoneiros independentes disponíveis para fretes</p>
+          </div>
+          <div className="border-t border-gray-200">
+            <ul role="list" className="divide-y divide-gray-200">
+              {transportadoresDisponiveis.map((transportador) => (
+                <li key={transportador.id} className="px-4 py-4 sm:px-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <Truck className="h-8 w-8 text-gray-500 mr-3" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">{transportador.nome}</p>
+                        <p className="text-sm text-gray-500">{transportador.telefone}</p>
+                        <div className="flex items-center space-x-4 mt-1">
+                          <span className="text-xs text-gray-500">
+                            📍 {transportador.localizacao_atual}
+                          </span>
+                          <span className="text-xs text-blue-600">
+                            → {transportador.destino}
+                          </span>
+                          <span className="text-xs text-green-600">
+                            ⏰ {transportador.horario_disponivel}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="ml-2 flex items-center space-x-4">
+                      <div className="text-right">
+                        <p className="text-sm font-medium text-gray-900">
+                          {transportador.capacidade_maxima}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {transportador.distancia_km}km - {transportador.tempo_estimado}
+                        </p>
+                        <div className="flex items-center mt-1">
+                          <span className="text-xs text-yellow-600">⭐ {transportador.avaliacao}</span>
+                          <span className="text-xs text-gray-500 ml-2">
+                            {transportador.tipos_carga.join(', ')}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex space-x-2">
+                        <button className="btn btn-primary text-sm">
+                          Oferecer Frete
+                        </button>
+                        <button className="btn btn-outline text-sm">
+                          Ver Perfil
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

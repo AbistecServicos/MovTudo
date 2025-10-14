@@ -33,6 +33,16 @@ interface SolicitacaoFrete {
   tempo_estimado: string
 }
 
+interface Disponibilidade {
+  status: 'online' | 'offline'
+  destino: string
+  horario_disponivel: string
+  empresas_atende: string[]
+  capacidade_maxima: string
+  tipos_carga: string[]
+  localizacao_atual: string
+}
+
 export default function TransportadorTransportadoraPage() {
   const router = useRouter()
   const { user, empresaAssociada } = useAuth()
@@ -44,6 +54,20 @@ export default function TransportadorTransportadoraPage() {
     avaliacao: 4.7,
     status: 'online'
   })
+  const [disponibilidade, setDisponibilidade] = useState<Disponibilidade>({
+    status: 'offline',
+    destino: '',
+    horario_disponivel: '',
+    empresas_atende: [],
+    capacidade_maxima: '15.000kg',
+    tipos_carga: ['bebidas', 'alimentos'],
+    localizacao_atual: 'Rio de Janeiro - RJ'
+  })
+  const [empresasDisponiveis, setEmpresasDisponiveis] = useState([
+    { id: 'E2', nome: 'Volta com Fé Transportes', selecionada: false },
+    { id: 'E3', nome: 'Transportadora Express', selecionada: false },
+    { id: 'E4', nome: 'Carga Rápida', selecionada: false }
+  ])
 
   useEffect(() => {
     if (!user || !empresaAssociada || empresaAssociada.funcao !== 'transportador') {
@@ -114,6 +138,44 @@ export default function TransportadorTransportadoraPage() {
   const aceitarFrete = (solicitacaoId: string) => {
     toast.success('Frete aceito com sucesso!')
     // Aqui seria a lógica para aceitar o frete
+  }
+
+  const toggleDisponibilidade = () => {
+    const novoStatus = disponibilidade.status === 'online' ? 'offline' : 'online'
+    setDisponibilidade(prev => ({ ...prev, status: novoStatus }))
+    
+    if (novoStatus === 'online') {
+      toast.success('Disponibilidade ativada! Empresas podem ver você.')
+    } else {
+      toast.info('Disponibilidade desativada.')
+    }
+  }
+
+  const atualizarDisponibilidade = (campo: string, valor: any) => {
+    setDisponibilidade(prev => ({ ...prev, [campo]: valor }))
+  }
+
+  const toggleEmpresa = (empresaId: string) => {
+    setEmpresasDisponiveis(prev => 
+      prev.map(empresa => 
+        empresa.id === empresaId 
+          ? { ...empresa, selecionada: !empresa.selecionada }
+          : empresa
+      )
+    )
+  }
+
+  const salvarDisponibilidade = () => {
+    const empresasSelecionadas = empresasDisponiveis
+      .filter(empresa => empresa.selecionada)
+      .map(empresa => empresa.id)
+    
+    setDisponibilidade(prev => ({ 
+      ...prev, 
+      empresas_atende: empresasSelecionadas 
+    }))
+    
+    toast.success('Disponibilidade salva com sucesso!')
   }
 
   if (loading) {
@@ -208,6 +270,136 @@ export default function TransportadorTransportadoraPage() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Seção de Disponibilidade */}
+        <div className="card p-6 mb-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold text-gray-900">Minha Disponibilidade</h2>
+            <div className="flex items-center space-x-4">
+              <div className={`flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                disponibilidade.status === 'online' 
+                  ? 'bg-green-100 text-green-800' 
+                  : 'bg-gray-100 text-gray-800'
+              }`}>
+                <div className={`w-2 h-2 rounded-full mr-2 ${
+                  disponibilidade.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
+                }`}></div>
+                {disponibilidade.status === 'online' ? 'Online' : 'Offline'}
+              </div>
+              <button
+                onClick={toggleDisponibilidade}
+                className={`btn ${disponibilidade.status === 'online' ? 'btn-secondary' : 'btn-primary'}`}
+              >
+                {disponibilidade.status === 'online' ? 'Desativar' : 'Ativar'} Disponibilidade
+              </button>
+            </div>
+          </div>
+
+          {disponibilidade.status === 'online' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Configurações de Disponibilidade */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Destino da Viagem
+                  </label>
+                  <input
+                    type="text"
+                    value={disponibilidade.destino}
+                    onChange={(e) => atualizarDisponibilidade('destino', e.target.value)}
+                    placeholder="Ex: Rio de Janeiro, São Paulo..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Horário Disponível
+                  </label>
+                  <input
+                    type="text"
+                    value={disponibilidade.horario_disponivel}
+                    onChange={(e) => atualizarDisponibilidade('horario_disponivel', e.target.value)}
+                    placeholder="Ex: Até 18h, Manhã inteira..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Localização Atual
+                  </label>
+                  <input
+                    type="text"
+                    value={disponibilidade.localizacao_atual}
+                    onChange={(e) => atualizarDisponibilidade('localizacao_atual', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+
+              {/* Empresas que Atende */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Empresas que Deseja Atender
+                </label>
+                <div className="space-y-2">
+                  {empresasDisponiveis.map((empresa) => (
+                    <label key={empresa.id} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={empresa.selecionada}
+                        onChange={() => toggleEmpresa(empresa.id)}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      />
+                      <span className="ml-2 text-sm text-gray-700">{empresa.nome}</span>
+                    </label>
+                  ))}
+                </div>
+
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Capacidade Máxima
+                  </label>
+                  <select
+                    value={disponibilidade.capacidade_maxima}
+                    onChange={(e) => atualizarDisponibilidade('capacidade_maxima', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="5.000kg">Até 5.000kg</option>
+                    <option value="10.000kg">Até 10.000kg</option>
+                    <option value="15.000kg">Até 15.000kg</option>
+                    <option value="25.000kg">Até 25.000kg</option>
+                    <option value="40.000kg">Até 40.000kg</option>
+                  </select>
+                </div>
+
+                <button
+                  onClick={salvarDisponibilidade}
+                  className="btn btn-primary w-full mt-4"
+                >
+                  Salvar Disponibilidade
+                </button>
+              </div>
+            </div>
+          )}
+
+          {disponibilidade.status === 'offline' && (
+            <div className="text-center py-8">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                  <Package className="h-8 w-8 text-gray-400" />
+                </div>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Você está offline
+              </h3>
+              <p className="text-gray-600">
+                Ative sua disponibilidade para que as empresas possam ver você e oferecer fretes.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Fretes Disponíveis */}

@@ -183,16 +183,16 @@ export default function TransportadoraPage() {
       const transportadoresDisponiveisData: TransportadorDisponivel[] = [
         {
           id: '1',
-          nome: 'Carlos Freitas',
-          telefone: '(21) 99999-0101',
-          localizacao_atual: 'São Paulo - SP',
-          destino: 'Rio de Janeiro - RJ',
+          nome: 'José Caminhoneiro',
+          telefone: '(21) 99999-0001',
+          localizacao_atual: 'Rio de Janeiro - RJ',
+          destino: 'São Paulo - SP',
           horario_disponivel: 'Até 18h',
           capacidade_maxima: '15.000kg',
           tipos_carga: ['bebidas', 'alimentos'],
           avaliacao: 4.8,
-          distancia_km: 45,
-          tempo_estimado: '30min'
+          distancia_km: 450,
+          tempo_estimado: '5h30min'
         },
         {
           id: '2',

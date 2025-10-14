@@ -43,6 +43,15 @@ interface Disponibilidade {
   localizacao_atual: string
 }
 
+interface Veiculo {
+  modelo: string
+  placa: string
+  ano: string
+  capacidade_maxima: string
+  tipos_carga: string[]
+  equipamentos: string[]
+}
+
 export default function TransportadorTransportadoraPage() {
   const router = useRouter()
   const { user, empresaAssociada } = useAuth()
@@ -64,10 +73,18 @@ export default function TransportadorTransportadoraPage() {
     localizacao_atual: 'Rio de Janeiro - RJ'
   })
   const [empresasDisponiveis, setEmpresasDisponiveis] = useState([
-    { id: 'E2', nome: 'Volta com Fé Transportes', selecionada: false },
+    { id: 'E2', nome: 'Volta com Fé Transportes', selecionada: true },
     { id: 'E3', nome: 'Transportadora Express', selecionada: false },
     { id: 'E4', nome: 'Carga Rápida', selecionada: false }
   ])
+  const [veiculo, setVeiculo] = useState<Veiculo>({
+    modelo: 'Mercedes-Benz Actros 2651',
+    placa: 'ABC-1234',
+    ano: '2020',
+    capacidade_maxima: '15.000kg',
+    tipos_carga: ['bebidas', 'alimentos'],
+    equipamentos: ['carregadeira', 'guincho']
+  })
 
   useEffect(() => {
     if (!user || !empresaAssociada || empresaAssociada.funcao !== 'transportador') {
@@ -296,6 +313,23 @@ export default function TransportadorTransportadoraPage() {
             </div>
           </div>
 
+          {/* Status da Disponibilidade */}
+          {disponibilidade.status === 'online' && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center">
+                <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
+                <div>
+                  <h3 className="text-sm font-medium text-green-800">
+                    Você está visível para as empresas!
+                  </h3>
+                  <p className="text-sm text-green-700">
+                    As empresas podem ver sua disponibilidade e enviar ofertas de frete.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {disponibilidade.status === 'online' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Configurações de Disponibilidade */}
@@ -400,6 +434,145 @@ export default function TransportadorTransportadoraPage() {
               </p>
             </div>
           )}
+        </div>
+
+        {/* Informações do Veículo */}
+        <div className="card p-6 mb-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold text-gray-900">Informações do Veículo</h2>
+            <button className="btn btn-outline">
+              <Edit className="h-4 w-4 mr-2" />
+              Editar
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Modelo do Veículo
+                </label>
+                <input
+                  type="text"
+                  value={veiculo.modelo}
+                  onChange={(e) => setVeiculo(prev => ({ ...prev, modelo: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Placa
+                  </label>
+                  <input
+                    type="text"
+                    value={veiculo.placa}
+                    onChange={(e) => setVeiculo(prev => ({ ...prev, placa: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Ano
+                  </label>
+                  <input
+                    type="text"
+                    value={veiculo.ano}
+                    onChange={(e) => setVeiculo(prev => ({ ...prev, ano: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Capacidade Máxima
+                </label>
+                <select
+                  value={veiculo.capacidade_maxima}
+                  onChange={(e) => setVeiculo(prev => ({ ...prev, capacidade_maxima: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="5.000kg">Até 5.000kg</option>
+                  <option value="10.000kg">Até 10.000kg</option>
+                  <option value="15.000kg">Até 15.000kg</option>
+                  <option value="25.000kg">Até 25.000kg</option>
+                  <option value="40.000kg">Até 40.000kg</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Tipos de Carga que Transporta
+                </label>
+                <div className="space-y-2">
+                  {['bebidas', 'alimentos', 'construção', 'químicos', 'eletrônicos', 'têxtil'].map((tipo) => (
+                    <label key={tipo} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={veiculo.tipos_carga.includes(tipo)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setVeiculo(prev => ({
+                              ...prev,
+                              tipos_carga: [...prev.tipos_carga, tipo]
+                            }))
+                          } else {
+                            setVeiculo(prev => ({
+                              ...prev,
+                              tipos_carga: prev.tipos_carga.filter(t => t !== tipo)
+                            }))
+                          }
+                        }}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      />
+                      <span className="ml-2 text-sm text-gray-700 capitalize">{tipo}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Equipamentos Disponíveis
+                </label>
+                <div className="space-y-2">
+                  {['carregadeira', 'guincho', 'grua', 'esteira', 'empilhadeira'].map((equipamento) => (
+                    <label key={equipamento} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={veiculo.equipamentos.includes(equipamento)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setVeiculo(prev => ({
+                              ...prev,
+                              equipamentos: [...prev.equipamentos, equipamento]
+                            }))
+                          } else {
+                            setVeiculo(prev => ({
+                              ...prev,
+                              equipamentos: prev.equipamentos.filter(eq => eq !== equipamento)
+                            }))
+                          }
+                        }}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      />
+                      <span className="ml-2 text-sm text-gray-700 capitalize">{equipamento}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 flex justify-end">
+            <button className="btn btn-primary">
+              Salvar Informações do Veículo
+            </button>
+          </div>
         </div>
 
         {/* Fretes Disponíveis */}

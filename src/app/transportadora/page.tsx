@@ -58,7 +58,14 @@ export default function TransportadoraPage() {
   })
 
   useEffect(() => {
-    if (!user || !empresaAssociada || empresaAssociada.funcao !== 'gerente') {
+    // Permitir acesso para administradores (visualização) e gerentes (gestão)
+    if (!user) {
+      router.push('/login')
+      return
+    }
+    
+    // Se não for admin e não for gerente, redireciona
+    if (!user.is_admin && (!empresaAssociada || empresaAssociada.funcao !== 'gerente')) {
       router.push('/')
       return
     }

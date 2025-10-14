@@ -13,7 +13,8 @@ import {
   LogOut,
   Menu,
   X,
-  Mail
+  Mail,
+  BookOpen
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -65,6 +66,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { name: 'Usuários', href: '/admin/usuarios', icon: Users },
     { name: 'Mensagens', href: '/admin/mensagens', icon: Mail },
     { name: 'Relatórios', href: '/admin/relatorios', icon: BarChart3 },
+    { name: 'Documentação', href: '/docs', icon: BookOpen },
     { name: 'Configurações', href: '/admin/configuracoes', icon: Settings },
   ]
 

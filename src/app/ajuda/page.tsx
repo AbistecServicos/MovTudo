@@ -65,7 +65,7 @@ export default function AjudaPage() {
                 Como contratar o MovTudo?
               </h3>
               <p className="text-gray-600">
-                Entre em contato com a Abistec pelo WhatsApp <a href="https://wa.me/552132727548" className="text-primary-600 hover:underline">(21) 3272-7548</a> ou email <a href="mailto:abistec.almir@gmail.com" className="text-primary-600 hover:underline">abistec.almir@gmail.com</a>. Faremos uma demonstração e configuraremos seu acesso personalizado.
+                Entre em contato com a Abistec pelo WhatsApp <a href="https://wa.me/552132727548" className="text-primary-600 hover:underline">(21) 3272-7548</a> ou email <a href="mailto:comercial@abistec.com.br" className="text-primary-600 hover:underline">comercial@abistec.com.br</a>. Faremos uma demonstração e configuraremos seu acesso personalizado.
               </p>
             </div>
 
@@ -74,7 +74,7 @@ export default function AjudaPage() {
                 Qual o custo do sistema?
               </h3>
               <p className="text-gray-600">
-                O MovTudo funciona como uma plataforma SaaS com planos mensais. Entre em contato para receber uma proposta personalizada de acordo com o tamanho da sua frota e volume de corridas.
+                A plataforma MovTudo funciona com planos mensais. Entre em contato para receber uma proposta personalizada de acordo com o tamanho da sua frota e volume de corridas.
               </p>
             </div>
 
@@ -148,7 +148,7 @@ export default function AjudaPage() {
                 Como solicito uma corrida?
               </h3>
               <p className="text-gray-600">
-                Acesse a página da empresa de transporte desejada (ex: movtudo.netlify.app/moto-taxi), faça login ou cadastro, e preencha origem, destino e tipo de transporte. O sistema calculará o preço automaticamente.
+                Acesse a página da empresa de transporte desejada (ex: movtudo.com.br/moto-taxi), faça login ou cadastro, e preencha origem, destino e tipo de transporte. O sistema calculará o preço automaticamente.
               </p>
             </div>
 

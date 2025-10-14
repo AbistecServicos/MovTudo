@@ -1,7 +1,59 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Book, Users, Building2, Car, Shield, Code, FileText } from 'lucide-react'
+import { ArrowLeft, Book, Users, Building2, Car, Shield, Code, FileText, Lock } from 'lucide-react'
+import { useAuth, useIsAdmin } from '@/context/AuthContext'
 
 export default function DocsPage() {
+  const router = useRouter()
+  const { user } = useAuth()
+  const isAdmin = useIsAdmin()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Espera contexto hidratar e decide
+    if (user === undefined) return
+    if (!user) {
+      router.push('/login')
+      return
+    }
+    if (isAdmin === false) {
+      router.push('/')
+      return
+    }
+    setLoading(false)
+  }, [user, isAdmin, router])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="spinner mx-auto mb-4"></div>
+          <p className="text-gray-600">Verificando permissões...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center">
+        <div className="card p-8 max-w-md text-center">
+          <Lock className="h-16 w-16 text-red-600 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Acesso Restrito</h2>
+          <p className="text-gray-600 mb-6">
+            Esta página é acessível apenas para administradores do sistema.
+          </p>
+          <Link href="/" className="btn btn-primary">
+            Voltar para Início
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50">
       {/* Header */}

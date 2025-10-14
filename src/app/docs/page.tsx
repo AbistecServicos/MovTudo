@@ -305,45 +305,102 @@ export default function DocsPage() {
           </div>
         </div>
 
-        {/* 6. Integração */}
-        <div id="integracao" className="card p-8 mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center">
-            <Building2 className="h-8 w-8 text-primary-600 mr-3" />
-            6. Integração de Empresas
-          </h2>
-          <div className="prose max-w-none">
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Processo de Onboarding:</h3>
-            <ol className="list-decimal list-inside space-y-2 text-gray-600 mb-6">
-              <li>Empresa entra em contato com a Abistec</li>
-              <li>Abistec cria a empresa no painel admin</li>
-              <li>Define slug único (ex: /moto-taxi-express)</li>
-              <li>Configura logo e cores</li>
-              <li>Cria conta do gerente principal</li>
-              <li>Gerente cadastra transportadores</li>
-              <li>Sistema entra em operação</li>
-            </ol>
+               {/* 6. Integração */}
+               <div id="integracao" className="card p-8 mb-8">
+                 <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+                   <Building2 className="h-8 w-8 text-primary-600 mr-3" />
+                   6. Integração de Empresas
+                 </h2>
+                 <div className="prose max-w-none">
+                   <h3 className="text-xl font-semibold text-gray-900 mb-3">Sistema de Templates por Nicho:</h3>
+                   <p className="text-gray-600 mb-4">
+                     O MovTudo utiliza um sistema inovador de <strong>templates especializados</strong> por tipo de empresa. 
+                     Cada nicho de mercado recebe um conjunto completo de funcionalidades específicas.
+                   </p>
+                   
+                   <div className="bg-blue-50 p-6 rounded-lg mb-6">
+                     <h4 className="text-lg font-semibold text-blue-900 mb-3">🚀 Conceito de Templates:</h4>
+                     <ol className="list-decimal list-inside space-y-2 text-blue-800">
+                       <li><strong>Identificar Nicho:</strong> Transportadora (E2), Moto-taxi (E1), etc.</li>
+                       <li><strong>Desenvolver Modelo:</strong> Recursos específicos para o nicho</li>
+                       <li><strong>Documentar Template:</strong> Checklist completo de funcionalidades</li>
+                       <li><strong>Clonar para Similares:</strong> Aplicativo "pronto" para novas empresas</li>
+                       <li><strong>Personalizar:</strong> Ajustar cores, logos e dados específicos</li>
+                     </ol>
+                   </div>
 
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Domínio Próprio (Opcional):</h3>
-            <p className="text-gray-600 mb-4">
-              A empresa pode optar por usar um domínio próprio que aponta para seu slug no MovTudo:
-            </p>
-            <div className="bg-gray-50 p-4 rounded-lg mb-6 font-mono text-sm">
-              <p className="mb-2">movtudo.netlify.app/moto-taxi → URL padrão</p>
-              <p>mototaxiexpress.com.br → Domínio próprio (mesmo conteúdo)</p>
-            </div>
+                   <h3 className="text-xl font-semibold text-gray-900 mb-3">Templates Disponíveis:</h3>
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                     <div className="border border-gray-200 rounded-lg p-4">
+                       <h4 className="font-semibold text-gray-900 mb-2">🚛 E2 - Transportadora</h4>
+                       <p className="text-sm text-gray-600 mb-2">
+                         Para empresas de cargas pesadas e fretes industriais
+                       </p>
+                       <ul className="text-xs text-gray-500 space-y-1">
+                         <li>• Gestão de frota de caminhões</li>
+                         <li>• Fretes de grandes clientes (Coca-Cola, Pepsi)</li>
+                         <li>• Rastreamento GPS avançado</li>
+                         <li>• Cálculo de preços por peso/km</li>
+                       </ul>
+                     </div>
+                     
+                     <div className="border border-gray-200 rounded-lg p-4">
+                       <h4 className="font-semibold text-gray-900 mb-2">🏍️ E1 - Moto-taxi</h4>
+                       <p className="text-sm text-gray-600 mb-2">
+                         Para serviços de transporte de passageiros
+                       </p>
+                       <ul className="text-xs text-gray-500 space-y-1">
+                         <li>• Corridas urbanas rápidas</li>
+                         <li>• Gestão de motoboys</li>
+                         <li>• Integração com aplicativos</li>
+                         <li>• Pagamento por corrida</li>
+                       </ul>
+                     </div>
+                   </div>
 
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Planos e Preços:</h3>
-            <p className="text-gray-600 mb-2">
-              Entre em contato para receber uma proposta personalizada de acordo com:
-            </p>
-            <ul className="list-disc list-inside space-y-2 text-gray-600">
-              <li>Número de transportadores</li>
-              <li>Volume de corridas/mês</li>
-              <li>Necessidade de domínio próprio</li>
-              <li>Funcionalidades adicionais</li>
-            </ul>
-          </div>
-        </div>
+                   <h3 className="text-xl font-semibold text-gray-900 mb-3">Processo de Onboarding:</h3>
+                   <ol className="list-decimal list-inside space-y-2 text-gray-600 mb-6">
+                     <li>Empresa entra em contato com a Abistec</li>
+                     <li><strong>Identificação do nicho</strong> e seleção do template adequado</li>
+                     <li>Abistec cria a empresa usando o template específico</li>
+                     <li>Define slug único (ex: /moto-taxi-express)</li>
+                     <li>Personaliza logo, cores e dados específicos</li>
+                     <li>Cria conta do gerente principal</li>
+                     <li>Gerente cadastra transportadores</li>
+                     <li>Sistema entra em operação com recursos completos</li>
+                   </ol>
+
+                   <h3 className="text-xl font-semibold text-gray-900 mb-3">Vantagens dos Templates:</h3>
+                   <ul className="list-disc list-inside space-y-2 text-gray-600 mb-6">
+                     <li><strong>Desenvolvimento Rápido:</strong> Aplicativo "pronto" em dias, não meses</li>
+                     <li><strong>Recursos Específicos:</strong> Funcionalidades adequadas ao nicho</li>
+                     <li><strong>Qualidade Garantida:</strong> Template testado e otimizado</li>
+                     <li><strong>Custo Reduzido:</strong> Reutilização de código e funcionalidades</li>
+                     <li><strong>Manutenção Simplificada:</strong> Atualizações centralizadas</li>
+                   </ul>
+
+                   <h3 className="text-xl font-semibold text-gray-900 mb-3">Domínio Próprio (Opcional):</h3>
+                   <p className="text-gray-600 mb-4">
+                     A empresa pode optar por usar um domínio próprio que aponta para seu slug no MovTudo:
+                   </p>
+                   <div className="bg-gray-50 p-4 rounded-lg mb-6 font-mono text-sm">
+                     <p className="mb-2">movtudo.com.br/moto-taxi → URL padrão</p>
+                     <p>mototaxiexpress.com.br → Domínio próprio (mesmo conteúdo)</p>
+                   </div>
+
+                   <h3 className="text-xl font-semibold text-gray-900 mb-3">Planos e Preços:</h3>
+                   <p className="text-gray-600 mb-2">
+                     Entre em contato para receber uma proposta personalizada de acordo com:
+                   </p>
+                   <ul className="list-disc list-inside space-y-2 text-gray-600">
+                     <li>Tipo de empresa e template necessário</li>
+                     <li>Número de transportadores</li>
+                     <li>Volume de corridas/mês</li>
+                     <li>Necessidade de domínio próprio</li>
+                     <li>Funcionalidades adicionais específicas</li>
+                   </ul>
+                 </div>
+               </div>
 
         {/* Links Úteis */}
         <div className="card p-8 bg-primary-50">

@@ -194,22 +194,22 @@ export default function TransportadoraPage() {
       {/* Template Info Banner */}
       <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <div className="flex items-center">
+          <div className="flex flex-col sm:flex-row">
+            <div className="flex-shrink-0 mb-3 sm:mb-0">
+              <div className="flex items-start">
                 <div className="flex-shrink-0">
-                  <FileText className="h-5 w-5 text-blue-400" />
+                  <FileText className="h-5 w-5 text-blue-400 mt-0.5" />
                 </div>
                 <div className="ml-3">
                   <h3 className="text-sm font-medium text-blue-800">
                     📋 Template do Modelo E2 - Transportadora
                   </h3>
-                  <div className="mt-2 text-sm text-blue-700">
+                  <div className="mt-2 text-xs sm:text-sm text-blue-700 space-y-2">
                     <p>
                       Este é o <strong>template frontend</strong> do painel/dashboard do <strong>gerente de uma transportadora</strong> 
                       no <strong>Modelo E2 (Volta com Fé)</strong>. Aqui são apresentados alguns recursos que estão atualmente implementados.
                     </p>
-                    <p className="mt-1">
+                    <p>
                       <strong>À medida que implementamos novos recursos, eles irão aparecendo aqui</strong> no modelo do painel 
                       do gerente de uma empresa tipo transportadora (Modelo E2).
                     </p>

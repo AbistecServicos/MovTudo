@@ -17,7 +17,8 @@ import {
   Edit,
   Filter,
   FileText,
-  ArrowLeft
+  ArrowLeft,
+  X
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -60,6 +61,22 @@ interface TransportadorDisponivel {
   tempo_estimado: string
 }
 
+interface OfertaFrete {
+  id: string
+  transportador_id: string
+  transportador_nome: string
+  origem: string
+  destino: string
+  peso: string
+  tipo_carga: string
+  valor_proposto: string
+  data_coleta: string
+  horario_coleta: string
+  observacoes: string
+  status: 'pendente' | 'aceita' | 'recusada' | 'negociando'
+  data_oferta: string
+}
+
 export default function TransportadoraPage() {
   const router = useRouter()
   const { user, empresaAssociada } = useAuth()
@@ -67,6 +84,24 @@ export default function TransportadoraPage() {
   const [caminhoneiros, setCaminhoneiros] = useState<Caminhoneiro[]>([])
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoFrete[]>([])
   const [transportadoresDisponiveis, setTransportadoresDisponiveis] = useState<TransportadorDisponivel[]>([])
+  const [ofertasEnviadas, setOfertasEnviadas] = useState<OfertaFrete[]>([])
+  const [modalOferta, setModalOferta] = useState<{
+    aberto: boolean
+    transportador: TransportadorDisponivel | null
+  }>({
+    aberto: false,
+    transportador: null
+  })
+  const [novaOferta, setNovaOferta] = useState({
+    origem: '',
+    destino: '',
+    peso: '',
+    tipo_carga: 'bebidas',
+    valor_proposto: '',
+    data_coleta: '',
+    horario_coleta: '',
+    observacoes: ''
+  })
   const [stats, setStats] = useState({
     total_caminhoneiros: 0,
     caminhoneiros_online: 0,
@@ -89,6 +124,56 @@ export default function TransportadoraPage() {
 
     loadData()
   }, [user, empresaAssociada])
+
+  const abrirModalOferta = (transportador: TransportadorDisponivel) => {
+    setModalOferta({ aberto: true, transportador })
+    // Preencher dados automáticos baseados no transportador
+    setNovaOferta(prev => ({
+      ...prev,
+      origem: transportador.localizacao_atual,
+      destino: transportador.destino,
+      data_coleta: new Date().toISOString().split('T')[0],
+      horario_coleta: '08:00'
+    }))
+  }
+
+  const fecharModalOferta = () => {
+    setModalOferta({ aberto: false, transportador: null })
+    setNovaOferta({
+      origem: '',
+      destino: '',
+      peso: '',
+      tipo_carga: 'bebidas',
+      valor_proposto: '',
+      data_coleta: '',
+      horario_coleta: '',
+      observacoes: ''
+    })
+  }
+
+  const enviarOferta = () => {
+    if (!modalOferta.transportador) return
+
+    const oferta: OfertaFrete = {
+      id: Date.now().toString(),
+      transportador_id: modalOferta.transportador.id,
+      transportador_nome: modalOferta.transportador.nome,
+      origem: novaOferta.origem,
+      destino: novaOferta.destino,
+      peso: novaOferta.peso,
+      tipo_carga: novaOferta.tipo_carga,
+      valor_proposto: novaOferta.valor_proposto,
+      data_coleta: novaOferta.data_coleta,
+      horario_coleta: novaOferta.horario_coleta,
+      observacoes: novaOferta.observacoes,
+      status: 'pendente',
+      data_oferta: new Date().toISOString()
+    }
+
+    setOfertasEnviadas(prev => [...prev, oferta])
+    toast.success(`Oferta enviada para ${modalOferta.transportador.nome}!`)
+    fecharModalOferta()
+  }
 
   const loadData = async () => {
     try {
@@ -482,7 +567,10 @@ export default function TransportadoraPage() {
                         </div>
                       </div>
                       <div className="flex space-x-2">
-                        <button className="btn btn-primary text-sm">
+                        <button 
+                          onClick={() => abrirModalOferta(transportador)}
+                          className="btn btn-primary text-sm"
+                        >
                           Oferecer Frete
                         </button>
                         <button className="btn btn-outline text-sm">
@@ -496,6 +584,210 @@ export default function TransportadoraPage() {
             </ul>
           </div>
         </div>
+
+        {/* Ofertas Enviadas */}
+        {ofertasEnviadas.length > 0 && (
+          <div className="card p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                Ofertas Enviadas
+              </h3>
+              <p className="text-sm text-gray-500">Suas ofertas para transportadores</p>
+            </div>
+            <div className="border-t border-gray-200">
+              <ul role="list" className="divide-y divide-gray-200">
+                {ofertasEnviadas.map((oferta) => (
+                  <li key={oferta.id} className="px-4 py-4 sm:px-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <Truck className="h-8 w-8 text-gray-500 mr-3" />
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">
+                            {oferta.transportador_nome}
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            {oferta.origem} → {oferta.destino}
+                          </p>
+                          <div className="flex items-center space-x-4 mt-1">
+                            <span className="text-xs text-gray-500">
+                              📦 {oferta.peso} - {oferta.tipo_carga}
+                            </span>
+                            <span className="text-xs text-green-600">
+                              💰 R$ {oferta.valor_proposto}
+                            </span>
+                            <span className="text-xs text-blue-600">
+                              📅 {new Date(oferta.data_coleta).toLocaleDateString()} às {oferta.horario_coleta}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="ml-2 flex items-center space-x-4">
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                          oferta.status === 'pendente' ? 'bg-yellow-100 text-yellow-800' :
+                          oferta.status === 'aceita' ? 'bg-green-100 text-green-800' :
+                          oferta.status === 'recusada' ? 'bg-red-100 text-red-800' :
+                          'bg-blue-100 text-blue-800'
+                        }`}>
+                          {oferta.status === 'pendente' ? 'Aguardando' :
+                           oferta.status === 'aceita' ? 'Aceita' :
+                           oferta.status === 'recusada' ? 'Recusada' :
+                           'Negociando'}
+                        </span>
+                        <button className="btn btn-outline text-sm">
+                          Ver Detalhes
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {/* Modal de Oferta */}
+        {modalOferta.aberto && modalOferta.transportador && (
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+              <div className="mt-3">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-medium text-gray-900">
+                    Oferecer Frete para {modalOferta.transportador.nome}
+                  </h3>
+                  <button
+                    onClick={fecharModalOferta}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <X className="h-6 w-6" />
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Origem
+                      </label>
+                      <input
+                        type="text"
+                        value={novaOferta.origem}
+                        onChange={(e) => setNovaOferta(prev => ({ ...prev, origem: e.target.value }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Destino
+                      </label>
+                      <input
+                        type="text"
+                        value={novaOferta.destino}
+                        onChange={(e) => setNovaOferta(prev => ({ ...prev, destino: e.target.value }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Peso
+                      </label>
+                      <input
+                        type="text"
+                        value={novaOferta.peso}
+                        onChange={(e) => setNovaOferta(prev => ({ ...prev, peso: e.target.value }))}
+                        placeholder="Ex: 15.000kg"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Tipo de Carga
+                      </label>
+                      <select
+                        value={novaOferta.tipo_carga}
+                        onChange={(e) => setNovaOferta(prev => ({ ...prev, tipo_carga: e.target.value }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="bebidas">Bebidas</option>
+                        <option value="alimentos">Alimentos</option>
+                        <option value="construção">Construção</option>
+                        <option value="químicos">Químicos</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Data de Coleta
+                      </label>
+                      <input
+                        type="date"
+                        value={novaOferta.data_coleta}
+                        onChange={(e) => setNovaOferta(prev => ({ ...prev, data_coleta: e.target.value }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Horário
+                      </label>
+                      <input
+                        type="time"
+                        value={novaOferta.horario_coleta}
+                        onChange={(e) => setNovaOferta(prev => ({ ...prev, horario_coleta: e.target.value }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Valor Proposto (R$)
+                    </label>
+                    <input
+                      type="text"
+                      value={novaOferta.valor_proposto}
+                      onChange={(e) => setNovaOferta(prev => ({ ...prev, valor_proposto: e.target.value }))}
+                      placeholder="Ex: 2.500,00"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Observações
+                    </label>
+                    <textarea
+                      value={novaOferta.observacoes}
+                      onChange={(e) => setNovaOferta(prev => ({ ...prev, observacoes: e.target.value }))}
+                      placeholder="Informações adicionais sobre o frete..."
+                      rows={3}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end space-x-3 mt-6">
+                  <button
+                    onClick={fecharModalOferta}
+                    className="btn btn-secondary"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={enviarOferta}
+                    className="btn btn-primary"
+                  >
+                    Enviar Oferta
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

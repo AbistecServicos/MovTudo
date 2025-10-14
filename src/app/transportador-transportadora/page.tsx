@@ -45,12 +45,15 @@ interface Disponibilidade {
 }
 
 interface Veiculo {
+  tipo_veiculo: string
   modelo: string
   placa: string
   ano: string
   capacidade_maxima: string
   tipos_carga: string[]
   equipamentos: string[]
+  tipo_servico: string
+  horarios_disponibilidade: string
 }
 
 export default function TransportadorTransportadoraPage() {
@@ -208,42 +211,54 @@ export default function TransportadorTransportadoraPage() {
     if (email.includes('transportador1.e2') || email.includes('josé')) {
       // José Caminhoneiro - E2
       setVeiculo({
+        tipo_veiculo: 'caminhao',
         modelo: 'Mercedes-Benz Actros 2651',
         placa: 'ABC-1234',
         ano: '2020',
         capacidade_maxima: '15.000kg',
         tipos_carga: ['bebidas', 'alimentos'],
-        equipamentos: ['carregadeira', 'guincho']
+        equipamentos: ['carregadeira', 'guincho'],
+        tipo_servico: 'frete',
+        horarios_disponibilidade: 'comercial'
       })
     } else if (email.includes('transportador2.e2')) {
       // Segundo transportador E2
       setVeiculo({
+        tipo_veiculo: 'caminhao',
         modelo: 'Volvo FH 540',
         placa: 'XYZ-5678',
         ano: '2019',
         capacidade_maxima: '25.000kg',
         tipos_carga: ['construção', 'químicos'],
-        equipamentos: ['grua', 'esteira']
+        equipamentos: ['grua', 'esteira'],
+        tipo_servico: 'frete',
+        horarios_disponibilidade: 'comercial'
       })
     } else if (email.includes('transportador1.e1')) {
       // Transportador E1 (Moto-taxi)
       setVeiculo({
+        tipo_veiculo: 'moto',
         modelo: 'Honda CB 600F Hornet',
         placa: 'MOT-1234',
         ano: '2021',
         capacidade_maxima: '150kg',
         tipos_carga: ['documentos', 'pequenos pacotes'],
-        equipamentos: ['baú', 'cadeado']
+        equipamentos: ['baú', 'cadeado'],
+        tipo_servico: 'entrega',
+        horarios_disponibilidade: '24h'
       })
     } else {
       // Dados padrão para outros transportadores
       setVeiculo({
+        tipo_veiculo: 'veiculo',
         modelo: 'Caminhão Padrão',
         placa: 'DEF-9012',
         ano: '2022',
         capacidade_maxima: '10.000kg',
         tipos_carga: ['geral'],
-        equipamentos: []
+        equipamentos: [],
+        tipo_servico: 'geral',
+        horarios_disponibilidade: 'comercial'
       })
     }
   }
@@ -514,6 +529,24 @@ export default function TransportadorTransportadoraPage() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Tipo de Veículo
+                </label>
+                <select
+                  value={veiculo.tipo_veiculo}
+                  onChange={(e) => setVeiculo(prev => ({ ...prev, tipo_veiculo: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="caminhao">Caminhão</option>
+                  <option value="moto">Moto</option>
+                  <option value="van">Van</option>
+                  <option value="carro">Carro</option>
+                  <option value="bicicleta">Bicicleta</option>
+                  <option value="veiculo">Outro</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Modelo do Veículo
                 </label>
                 <input
@@ -568,6 +601,40 @@ export default function TransportadorTransportadoraPage() {
             </div>
 
             <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Tipo de Serviço
+                </label>
+                <select
+                  value={veiculo.tipo_servico}
+                  onChange={(e) => setVeiculo(prev => ({ ...prev, tipo_servico: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="entrega">Entrega</option>
+                  <option value="frete">Frete</option>
+                  <option value="passageiro">Passageiro</option>
+                  <option value="geral">Geral</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Horários de Disponibilidade
+                </label>
+                <select
+                  value={veiculo.horarios_disponibilidade}
+                  onChange={(e) => setVeiculo(prev => ({ ...prev, horarios_disponibilidade: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="24h">24 horas</option>
+                  <option value="comercial">Horário Comercial (8h-18h)</option>
+                  <option value="manha">Manhã (6h-12h)</option>
+                  <option value="tarde">Tarde (12h-18h)</option>
+                  <option value="noite">Noite (18h-6h)</option>
+                  <option value="personalizado">Personalizado</option>
+                </select>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Tipos de Carga que Transporta

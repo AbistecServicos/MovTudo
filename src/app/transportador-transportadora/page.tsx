@@ -410,12 +410,18 @@ export default function TransportadorTransportadoraPage() {
                   </select>
                 </div>
 
-                <button
-                  onClick={salvarDisponibilidade}
-                  className="btn btn-primary w-full mt-4"
-                >
-                  Salvar Disponibilidade
-                </button>
+                       <div className="flex space-x-2 mt-4">
+                         <button
+                           onClick={salvarDisponibilidade}
+                           className="btn btn-primary flex-1"
+                         >
+                           Salvar Disponibilidade
+                         </button>
+                         <button className="btn btn-outline">
+                           <Truck className="h-4 w-4 mr-2" />
+                           Configurar Veículo
+                         </button>
+                       </div>
               </div>
             </div>
           )}

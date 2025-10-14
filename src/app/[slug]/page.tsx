@@ -148,14 +148,25 @@ export default function EmpresaPage() {
             {empresa.sobre_empresa || 'Seu parceiro de confiança para transporte e entregas'}
           </p>
           
-          <Link
-            href={`/${slug}/solicitar`}
-            className="inline-flex items-center px-8 py-4 text-lg font-medium rounded-lg text-white shadow-lg hover:shadow-xl transition-shadow"
-            style={{ backgroundColor: empresa.cor_primaria }}
-          >
-            <Car className="mr-3 h-6 w-6" />
-            Solicitar Corrida Agora
-          </Link>
+                 {user && empresaAssociada && empresaAssociada.funcao === 'transportador' ? (
+                   <Link
+                     href="/transportador-transportadora"
+                     className="inline-flex items-center px-8 py-4 text-lg font-medium rounded-lg text-white shadow-lg hover:shadow-xl transition-shadow"
+                     style={{ backgroundColor: empresa.cor_primaria }}
+                   >
+                     <Car className="mr-3 h-6 w-6" />
+                     Meu Dashboard
+                   </Link>
+                 ) : (
+                   <Link
+                     href={`/${slug}/solicitar`}
+                     className="inline-flex items-center px-8 py-4 text-lg font-medium rounded-lg text-white shadow-lg hover:shadow-xl transition-shadow"
+                     style={{ backgroundColor: empresa.cor_primaria }}
+                   >
+                     <Car className="mr-3 h-6 w-6" />
+                     Solicitar Corrida Agora
+                   </Link>
+                 )}
         </div>
       </section>
 
@@ -214,21 +225,41 @@ export default function EmpresaPage() {
               <p className="text-lg text-gray-600 mb-6">
                 Olá, {user.nome || 'Usuário'}! Pronto para solicitar sua próxima corrida?
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <Link
-                  href={`/${slug}/solicitar`}
-                  className="btn btn-primary btn-lg"
-                  style={{ backgroundColor: empresa.cor_primaria }}
-                >
-                  Solicitar Corrida
-                </Link>
-                <Link
-                  href="/perfil"
-                  className="btn btn-outline btn-lg"
-                >
-                  Meu Perfil
-                </Link>
-              </div>
+                       <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                         {user && empresaAssociada && empresaAssociada.funcao === 'transportador' ? (
+                           <>
+                             <Link
+                               href="/transportador-transportadora"
+                               className="btn btn-primary btn-lg"
+                               style={{ backgroundColor: empresa.cor_primaria }}
+                             >
+                               Meu Dashboard
+                             </Link>
+                             <Link
+                               href="/perfil"
+                               className="btn btn-outline btn-lg"
+                             >
+                               Meu Perfil
+                             </Link>
+                           </>
+                         ) : (
+                           <>
+                             <Link
+                               href={`/${slug}/solicitar`}
+                               className="btn btn-primary btn-lg"
+                               style={{ backgroundColor: empresa.cor_primaria }}
+                             >
+                               Solicitar Corrida
+                             </Link>
+                             <Link
+                               href="/perfil"
+                               className="btn btn-outline btn-lg"
+                             >
+                               Meu Perfil
+                             </Link>
+                           </>
+                         )}
+                       </div>
             </>
           ) : (
             <>

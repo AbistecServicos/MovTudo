@@ -13,7 +13,8 @@ import {
   Package,
   Navigation,
   Phone,
-  Star
+  Star,
+  Edit
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -225,7 +226,7 @@ export default function TransportadorTransportadoraPage() {
                 }`}></div>
                 <span className="text-sm text-gray-600 capitalize">{stats.status}</span>
               </div>
-              <Link href="/perfil" className="btn btn-outline">
+              <Link href={`/${empresaAssociada?.empresa_slug || 'empresa'}/perfil`} className="btn btn-outline">
                 Meu Perfil
               </Link>
             </div>

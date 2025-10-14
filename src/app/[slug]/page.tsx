@@ -13,7 +13,7 @@ export default function EmpresaPage() {
   const params = useParams()
   const router = useRouter()
   const slug = params.slug as string
-  const { user, signOut } = useAuth()
+  const { user, signOut, empresaAssociada } = useAuth()
   
   const [empresa, setEmpresa] = useState<Empresa | null>(null)
   const [loading, setLoading] = useState(true)

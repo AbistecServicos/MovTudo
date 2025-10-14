@@ -51,6 +51,22 @@ export default function HomePage() {
                 Cadastrar-se
               </Link>
             </div>
+            
+            {/* Seção específica para Transportadores */}
+            <div className="mt-12 p-6 bg-white rounded-lg shadow-md max-w-2xl mx-auto">
+              <div className="text-center">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  🚛 Você é Transportador?
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Faça login aqui para acessar ofertas de todas as empresas e gerenciar sua disponibilidade
+                </p>
+                <Link href="/login" className="btn btn-outline">
+                  <Car className="mr-2 h-4 w-4" />
+                  Login para Transportadores
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -156,19 +156,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return
     }
 
-    // 2. TEM VÍNCULO COM EMPRESA?
-    if (empresaAssociada && empresa) {
-      
-      // 2a. GERENTE → /gerente
-      if (empresaAssociada.funcao === 'gerente') {
-        console.log('🔀 Redirecionando gerente para /gerente')
-        router.push('/gerente')
-        return
-      }
-      
-           // 2b. TRANSPORTADOR → /transportador ou /transportador-transportadora
+         // 2. TEM VÍNCULO COM EMPRESA?
+         if (empresaAssociada && empresa) {
+           
+           // 2a. GERENTE → /gerente (mantém contexto da empresa)
+           if (empresaAssociada.funcao === 'gerente') {
+             console.log('🔀 Redirecionando gerente para /gerente')
+             router.push('/gerente')
+             return
+           }
+           
+           // 2b. TRANSPORTADOR → sempre para página centralizada
            if (empresaAssociada.funcao === 'transportador') {
-             // Se for transportador de transportadora, vai para página específica
+             // Transportadores sempre vão para página centralizada (multi-empresa)
              if (empresa && empresa.tipo_empresa === 'transportadora') {
                console.log('🔀 Redirecionando transportador de transportadora para /transportador-transportadora')
                router.push('/transportador-transportadora')
@@ -179,7 +179,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                return
              }
            }
-    }
+         }
     
     // 3. CLIENTE → Raiz
     console.log('👤 Redirecionando cliente para raiz')

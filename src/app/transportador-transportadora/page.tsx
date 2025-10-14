@@ -79,12 +79,12 @@ export default function TransportadorTransportadoraPage() {
     { id: 'E4', nome: 'Carga Rápida', selecionada: false }
   ])
   const [veiculo, setVeiculo] = useState<Veiculo>({
-    modelo: 'Mercedes-Benz Actros 2651',
-    placa: 'ABC-1234',
-    ano: '2020',
-    capacidade_maxima: '15.000kg',
-    tipos_carga: ['bebidas', 'alimentos'],
-    equipamentos: ['carregadeira', 'guincho']
+    modelo: '',
+    placa: '',
+    ano: '',
+    capacidade_maxima: '',
+    tipos_carga: [],
+    equipamentos: []
   })
 
   useEffect(() => {
@@ -99,6 +99,9 @@ export default function TransportadorTransportadoraPage() {
   const loadData = async () => {
     try {
       setLoading(true)
+      
+      // Carregar dados do veículo baseado no usuário
+      loadVeiculoData()
       
       // Simular dados para demonstração
       const solicitacoesData: SolicitacaoFrete[] = [
@@ -194,6 +197,60 @@ export default function TransportadorTransportadoraPage() {
     }))
     
     toast.success('Disponibilidade salva com sucesso!')
+  }
+
+  const loadVeiculoData = () => {
+    if (!user || !user.email) return
+
+    // Dados específicos baseados no email do usuário
+    const email = user.email.toLowerCase()
+    
+    if (email.includes('transportador1.e2') || email.includes('josé')) {
+      // José Caminhoneiro - E2
+      setVeiculo({
+        modelo: 'Mercedes-Benz Actros 2651',
+        placa: 'ABC-1234',
+        ano: '2020',
+        capacidade_maxima: '15.000kg',
+        tipos_carga: ['bebidas', 'alimentos'],
+        equipamentos: ['carregadeira', 'guincho']
+      })
+    } else if (email.includes('transportador2.e2')) {
+      // Segundo transportador E2
+      setVeiculo({
+        modelo: 'Volvo FH 540',
+        placa: 'XYZ-5678',
+        ano: '2019',
+        capacidade_maxima: '25.000kg',
+        tipos_carga: ['construção', 'químicos'],
+        equipamentos: ['grua', 'esteira']
+      })
+    } else if (email.includes('transportador1.e1')) {
+      // Transportador E1 (Moto-taxi)
+      setVeiculo({
+        modelo: 'Honda CB 600F Hornet',
+        placa: 'MOT-1234',
+        ano: '2021',
+        capacidade_maxima: '150kg',
+        tipos_carga: ['documentos', 'pequenos pacotes'],
+        equipamentos: ['baú', 'cadeado']
+      })
+    } else {
+      // Dados padrão para outros transportadores
+      setVeiculo({
+        modelo: 'Caminhão Padrão',
+        placa: 'DEF-9012',
+        ano: '2022',
+        capacidade_maxima: '10.000kg',
+        tipos_carga: ['geral'],
+        equipamentos: []
+      })
+    }
+  }
+
+  const salvarVeiculo = () => {
+    toast.success('Informações do veículo salvas com sucesso!')
+    // Aqui seria a lógica para salvar no banco de dados
   }
 
   if (loading) {
@@ -576,7 +633,10 @@ export default function TransportadorTransportadoraPage() {
           </div>
 
           <div className="mt-6 flex justify-end">
-            <button className="btn btn-primary">
+            <button 
+              onClick={salvarVeiculo}
+              className="btn btn-primary"
+            >
               Salvar Informações do Veículo
             </button>
           </div>

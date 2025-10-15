@@ -176,7 +176,7 @@ export default function TransportadorTransportadoraPage() {
     if (novoStatus === 'online') {
       toast.success('Disponibilidade ativada! Empresas podem ver você.')
     } else {
-      toast.info('Disponibilidade desativada.')
+      toast('Disponibilidade desativada.')
     }
   }
 

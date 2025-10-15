@@ -14,7 +14,9 @@ import {
   Navigation,
   Phone,
   Star,
-  Edit
+  Edit,
+  ArrowLeft,
+  LogOut
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -58,7 +60,7 @@ interface Veiculo {
 
 export default function TransportadorTransportadoraPage() {
   const router = useRouter()
-  const { user, empresaAssociada } = useAuth()
+  const { user, empresaAssociada, signOut } = useAuth()
   const [loading, setLoading] = useState(true)
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoFrete[]>([])
   const [stats, setStats] = useState({
@@ -271,6 +273,17 @@ export default function TransportadorTransportadoraPage() {
     // Aqui seria a lógica para salvar no banco de dados
   }
 
+  const handleLogout = async () => {
+    try {
+      await signOut()
+      toast.success('Logout realizado com sucesso!')
+      router.push('/login')
+    } catch (error) {
+      console.error('Erro no logout:', error)
+      toast.error('Erro ao fazer logout')
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -301,9 +314,16 @@ export default function TransportadorTransportadoraPage() {
                 }`}></div>
                 <span className="text-sm text-gray-600 capitalize">{stats.status}</span>
               </div>
-              <Link href={`/${empresaAssociada?.empresa_slug || 'empresa'}/perfil`} className="btn btn-outline">
+              <Link href="/perfil" className="btn btn-outline">
                 Meu Perfil
               </Link>
+              <button
+                onClick={handleLogout}
+                className="btn btn-secondary flex items-center"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sair
+              </button>
             </div>
           </div>
         </div>

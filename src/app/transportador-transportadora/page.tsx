@@ -82,12 +82,15 @@ export default function TransportadorTransportadoraPage() {
     { id: 'E4', nome: 'Carga Rápida', selecionada: false }
   ])
   const [veiculo, setVeiculo] = useState<Veiculo>({
+    tipo_veiculo: '',
     modelo: '',
     placa: '',
     ano: '',
     capacidade_maxima: '',
     tipos_carga: [],
-    equipamentos: []
+    equipamentos: [],
+    tipo_servico: '',
+    horarios_disponibilidade: ''
   })
 
   useEffect(() => {

@@ -156,7 +156,7 @@ export default function PerfilPage() {
                         router.push('/gerente')
                       } else if (empresaAssociada.funcao === 'transportador') {
                         // Se for transportador de transportadora, vai para página específica
-                        if (empresa && empresa.tipo_empresa === 'transportadora') {
+                        if (empresa && empresa.id_empresa === 'E2') {
                           router.push('/transportador-transportadora')
                         } else {
                           router.push('/transportador')

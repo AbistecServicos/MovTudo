@@ -169,7 +169,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
            // 2b. TRANSPORTADOR → sempre para página centralizada
            if (empresaAssociada.funcao === 'transportador') {
              // Transportadores sempre vão para página centralizada (multi-empresa)
-             if (empresa && empresa.tipo_empresa === 'transportadora') {
+             if (empresa && empresa.id_empresa === 'E2') {
                console.log('🔀 Redirecionando transportador de transportadora para /transportador-transportadora')
                router.push('/transportador-transportadora')
                return

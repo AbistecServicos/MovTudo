@@ -99,7 +99,7 @@ export default function EmpresaPage() {
                 <>
                   <div className="flex items-center space-x-2 text-gray-600">
                     <User className="h-5 w-5" />
-                    <span className="text-sm font-medium">{user.nome || user.email}</span>
+                    <span className="text-sm font-medium">{user.email}</span>
                   </div>
                   <Link 
                     href="/perfil"
@@ -223,7 +223,7 @@ export default function EmpresaPage() {
                 Bem-vindo de volta!
               </h2>
               <p className="text-lg text-gray-600 mb-6">
-                Olá, {user.nome || 'Usuário'}! Pronto para solicitar sua próxima corrida?
+                Olá! Pronto para solicitar sua próxima corrida?
               </p>
                        <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                          {user && empresaAssociada && empresaAssociada.funcao === 'transportador' ? (

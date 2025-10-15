@@ -17,7 +17,7 @@ export default function DebugAuth() {
         setSessionInfo(session)
 
         // Informações do localStorage
-        const localStorageInfo = {}
+        const localStorageInfo: Record<string, string | null> = {}
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i)
           if (key && (key.includes('supabase') || key.includes('auth'))) {
